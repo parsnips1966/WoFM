@@ -219,22 +219,21 @@ def fight(name: str, escape_round: int=99) -> bool:
             story("You are dead.", 999)
             return False
 
-def change_stats(stat: int, amount: int) -> None:
+def change_stats(stat: int, amount: str) -> None:
     """Changes one of the player's stats by an amount.
     :param stat: The stat which will be changed.
     :param amount: How much the stat will be changed by.
     """
-    if amount > 0:
-        if vars.hero[stat] + amount > vars.init_hero[stat]:
-            vars.hero[stat] = vars.init_hero[stat]
-        else:
-            vars.hero[stat] += amount
-    else:
-        if vars.hero[stat] + amount < 0:
+    if amount[0] == "-":
+        if vars.hero[stat] - int(amount[1]) < 0:
             vars.hero[stat] = 0
-            story("You are dead.")
-        else:
-            vars.hero[stat] += amount
+            return story("You are dead.")
+        vars.hero[stat] -= int(amount[1])
+        return
+    if vars.hero[stat] + amount > vars.init_hero[stat]:
+        vars.hero[stat] = vars.init_hero[stat]
+        return
+    vars.hero[stat] += amount
 
 def stat_test(stat: int) -> bool:
     """Generates a random number between 2 and 12 and compares it to one of the player's stats."""
