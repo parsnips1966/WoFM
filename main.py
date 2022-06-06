@@ -181,7 +181,7 @@ def repeat_1():
             decision_17 = story("WALK across the room?\nWalk across the room only stepping on STARS?\nWalk across the room stepping only on HANDS?")
             if decision_17 == "WALK":
                 story("Test your Luck three times.")
-                change_stats(2, -1)
+                change_stats(2, 1, "subtract")
                 if not stat_test(2):
                     story("You are lucky.")
                     if not stat_test(2):
@@ -227,8 +227,8 @@ def repeat_1():
                                 story("You snatch the key from its hook. It has the number 125 inscribed\non it. But your lungs are bursting. Roll two dice.")
                                 if not stat_test(2):
                                     story("You are forced to take a breath of poison gas.")
-                                    change_stats(0, -2)
-                                    change_stats(1, -3)
+                                    change_stats(0, 2, "subtract")
+                                    change_stats(1, 3, "subtract")
                                     story("Your Skill is reduce by 2 and your Stamina\nis reduced by 3. You dash for the door.")
                                     decision_17 = "RETURN"
                                 else:
@@ -294,7 +294,7 @@ def repeat_2():
                 if decision_17 == "BRONZE":
                     story("You place the helmet on your head. It fits well.\nSuddenly a searing pain flashes across your forehead.")
                     story("You cannot think straight. This helmet is cursed and,\ntry as you might, you cannot remove it!")
-                    change_stats(0, -1)
+                    change_stats(0, 1, "subtract")
                     story("The pain soon subsides, but you still cannot shift\nthe helmet. You stagger back to the junction.")
                     decision_17 = "BACK"
                 elif decision_17 == "IRON":
@@ -343,7 +343,7 @@ def repeat_2():
                             decision_16 = "ESCAPE"
                         elif decision_16 == "NO":
                             story("As you put the two swords into your belt,\nyour new one seems to take on a mind of its own.")
-                            change_stats(1, -1)
+                            change_stats(1, 1, "subtract")
                             story("It cuts your leg and, as you draw\nit out, it turns rubbery in your hand.")
                             vars.equipment.remove(vars.equipment.index("Good Sword"))
                             story("It's useless so you fling it into the river.\nIt seems the only way is for you to swim downriver.")
@@ -353,7 +353,7 @@ def repeat_2():
                         repeat_4()
                         vars.escape = False
                 elif decision_16 == "ESCAPE":
-                    change_stats(1, -2)
+                    change_stats(1, 2, "subtract")
             if decision_16 == "ESCAPE":
                 repeat_4()
 
@@ -382,7 +382,7 @@ def repeat_3():
             story("You find yourelf drawn towards his portrait and you fear rises.\nDo you have enough courage to try to combat the Warlock.")
             decision_17 = story("Will you either ESCAPE through the north door or\nlook for a WEAPON to use against the Warlock's power?")
             if decision_17 == "ESCAPE":
-                change_stats(1, -2)
+                change_stats(1, 2, "subtract")
                 decision_16 = "STRAIGHT"
             elif decision_16 == "WEAPON":
                 if "Jewel" in vars.equipment:
@@ -398,9 +398,9 @@ def repeat_3():
                     story("You try various items against the gaze of the painting, but none work.\nNow you must try slashing it with your sword.")
                     decision_16 = "SLASH"
                 if decision_16 == "SLASH":
-                    change_stats(1, -1)
+                    change_stats(1, 1, "subtract")
                     story("The sword flies out of your hand, and you must leap aside as\nit comes down on you. It grazes your cheek as it falls.")
-                    change_stats(0, -1)
+                    change_stats(0, 1, "subtract")
                     story("You decide you'd better leave the room. Pick up your sword\nand lose 1 more Skill in fear of the Warlock's power.")
                     decision_16 = "STRAIGHT"
                 elif decision_16 == "JEWEL":
@@ -412,7 +412,7 @@ def repeat_3():
                 elif decision_16 == "PLUNGE":
                     story("As you attack the portrait with the wooden stake, you feel a wrench of pain in your wrist.")
                     story("You are forced by some unseen power to drop the stake. You decide to run and leave through the north door.")
-                    change_stats(0, -1)
+                    change_stats(0, 1, "subtract")
                     story("You lose 1 more Skill in awe of the Warlock's power.")
                     decision_16 = "STRAIGHT"
                 elif decision_16 == "CHEESE":
@@ -446,12 +446,12 @@ def repeat_3():
                 story("Suddenly, it comes alive in your fingers, snakes up your arm\nand attempts to wrap itself around your neck.")
                 story("You struggle to cut the rope with your sword\nbefore its grip tightens. Test your Luck.")
                 dice_num = randint(2, 12)
-                change_stats(2, -1)
+                change_stats(2, 1, "subtract")
                 while dice_num > vars.hero[2]:
-                    change_stats(1, -1)
+                    change_stats(1, 1, "subtract")
                     story("You are unlucky so the rope tightens.\nYou must Test your Luck again.")
                     dice_num = randint(2, 12)
-                    change_stats(2, -1)
+                    change_stats(2, 1, "subtract")
                 story("You cut the rope and it drops to the ground.\nYou may leave through the north door.")
                 decision_16 = "LEAVE"
             if decision_16 == "LEAVE":
@@ -501,7 +501,7 @@ if decision_1 == "EAST":
             vars.background = "pit.jpg"
             story("The door bursts open and you fall headlong into a room.")
             story("But your heart jumps as you realise you are not landing on\nthe floor, but plunging down a pit of some kind!")
-            change_stats(1, -1)
+            change_stats(1, 1, "subtract")
             story("Luckily it's not very deep.")
             vars.background = "passage"
             story("You climb out and leave through the door heading westwards.")
@@ -555,7 +555,7 @@ if decision_3 == "YES":
             story("The sleeping creature awakens startled.\nHe jumps up and rushes at you unarmed.")
             decision_4 = story("With your sword you should be able to defeat him but his teeth look vicious.\nWill you ESCAPE or FIGHT the Orc who is attacking you?")
             if decision_4 == "ESCAPE":
-                change_stats(1, -2)
+                change_stats(1, 2, "subtract")
                 vars.background = "passage.jpg"
                 story("You run out of the room and slam the door shut\nbut the Orc has scratched you with its teeth.")
                 story("You turn northwards up the passageway passing a similar-looking door further up.")
@@ -638,6 +638,7 @@ if decision_7 == "YES":
         decision_7 = "NO"
         
 if decision_7 == "NO":
+    background = "passage.jpg"
     decision_8 = story("You eventually arrive at the end of the passage, at a three-way junction.\nWill you turn either to the WEST or to the EAST?")
     if decision_8 == "WEST":
         vars.background = "door.jpg"
@@ -653,7 +654,7 @@ if decision_7 == "NO":
                 story("As you spring at the Chieftain, his servant rises to his feet, picks up a hefty club\nand joins the melee. But to your horror he attacks you!")
                 decision_10 = story("Seeing this will you ESCAPE through the door down the corridor or CONTINUE the fight.")
                 if decision_10 == "ESCAPE":
-                    change_stats(1, -2)
+                    change_stats(1, 2, "subtract")
                     if vars.hero > 0:
                         story("The Chieftain gets a hit on you as you Escape.")
                         decision_8 = "BACK"
@@ -794,7 +795,7 @@ if decision_14 == "YES":
     if decision_13 == "YES":
         story("You charge at the door, hitting it squarely with your shoulder. Test your Skill.")
         if not stat_test(0):
-            change_stats(1, -1)
+            change_stats(1, 1, "subtract")
             story("The door shudders but does not budge\nand you wince in pain.")
             vars.background = "passage.jpg"
             story("You continue up the corridor.")
@@ -854,12 +855,12 @@ if decision_16 == "LEFT":
     story("Roll one die.")
     dice_num = randint(1, 6)
     if dice_num % 2 == 1:
-        change_stats(0, -3)
-        change_stats(1, -1)
+        change_stats(0, 3, "subtract")
+        change_stats(1, 1, "subtract")
         story("Your roll is odd so this was your sword hand and your fighting prowess\nis severely hampered.")
     else:
-        change_stats(0, -1)
-        change_stats(1, -2)
+        change_stats(0, 1, "subtract")
+        change_stats(1, 2, "subtract")
         story("Your roll is even so you used your non-sword hand,\nand the injury is not quite so important.")
     story("You now pull the right lever.")
     decision_16 = "RIGHT"
@@ -1014,7 +1015,7 @@ if decision_16 == "RIGHT":
                                 decision_16 = "CONTINUE"
                         elif decision_16 == "CHARGE":
                             story("He is a little startled, but simply raises his hand. As he does so,\nyou suddenly collide heavily into...apparently nothing.")
-                            change_stats(2, -2)
+                            change_stats(2, 2, "subtract")
                             story("You sit on the floor in a heap, rubbing your nose. Lose 2 Stamina points.")
                             story("The old man chuckles and says, 'You poor fool. Did you think I was\ndefenceless in such a den of evil as this? Regret your folly.'")
                             story("You rise to your feet and return to the passageway, turning north up the corridor.")
@@ -1046,11 +1047,11 @@ if decision_16 == "RIGHT":
                             decision_16 = story("The EAST wall?\nThe NORTH wall?\nThe WEST wall?")
                             if decision_16 == "EAST":
                                 story("You run along the wall searching for a door but find none.\nYour ears are on fire with the agony!")
-                                change_stats(0, -1)
+                                change_stats(0, 1, "subtract")
                                 decision_16 = story("You may either try the WEST wall or the NORTH wall,\nbut you must find a way out soon! Which will you choose?")
                             if decision_16 == "WEST":
                                 story("You grope along the wall but can find no way of escape.\nThe noise of causing you to scream in pain!")
-                                change_stats(0, -1)
+                                change_stats(0, 1, "subtract")
                                 decision_16 = story("Will you either try the EAST wall or the NORTH wall.")
                             if decision_16 == "NORTH":
                                 story("You grope around the length of the wall and find a door.\nQuickly you fumble with the handle. It opens!")
@@ -1123,3 +1124,6 @@ pygame.quit()
 #I've a feeling I'm missing a bit maybe with a vampire
 #fix dice
 #improve speed
+#make timing in fight consistant
+#better room image
+#make all monster names fit

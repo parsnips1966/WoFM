@@ -189,7 +189,7 @@ def fight(name: str, escape_round: int=99) -> bool:
                 if round >= escape_round:
                     if story("Do you want to ESCAPE to run away or press enter to continue?") == "ESCAPE":
                         story("You escaped.")
-                        change_stats(1, -2)
+                        change_stats(1, 2, "subtract")
                         vars.fighting = False
                         return False
                 if x_clicked():
@@ -219,30 +219,29 @@ def fight(name: str, escape_round: int=99) -> bool:
             story("You are dead.", 999)
             return False
 
-def change_stats(stat: int, amount: str) -> None:
+def change_stats(stat: int, amount: int, operation: str="add") -> None:
     """Changes one of the player's stats by an amount.
     :param stat: The stat which will be changed.
     :param amount: How much the stat will be changed by.
     """
-    if amount[0] == "-":
-        if vars.hero[stat] - int(amount[1]) < 0:
+    if operation == "subtract":
+        if vars.hero[stat] - amount < 0:
             vars.hero[stat] = 0
             return story("You are dead.")
-        vars.hero[stat] -= int(amount[1])
+        vars.hero[stat] -= amount
         return
     if vars.hero[stat] + amount > vars.init_hero[stat]:
         vars.hero[stat] = vars.init_hero[stat]
         return
     vars.hero[stat] += amount
 
-def stat_test(stat: int) -> bool:
+def stat_test(stat: int) -> any:
     """Generates a random number between 2 and 12 and compares it to one of the player's stats."""
     if stat == 2:
-        change_stats(2, -1)
+        change_stats(2, 1, "subtract")
     vars.dice_num = randint(2, 12)
     if vars.dice_num <= vars.hero[stat]:
         return True
-    return False
 
 if __name__ == "__main__":
     raise Exception
