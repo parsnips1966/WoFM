@@ -38,71 +38,81 @@ def story(txt: str, timer: int=0) -> str:
     """
     output = ""
     cursor_flash = 0
-    loop = True
     txt = txt.split("\n")
-    while loop:
+    while True:
         cursor_flash += 1
+        equip_str = ""
+        surf = pygame.image.load("./images/" + vars.background + ".jpg").convert()
+        consts.screen.blit(surf, surf.get_rect())
+        for i in range(len(txt)):
+            text = txt[i]
+            blit_text(text, -1, consts.height // 2 + (i * 30), 40, outline = True, centerx = True)
+        blit_text("Player", 10, 10, underline = True, colour = consts.GREEN, outline = True)
+        blit_text("Skill: " + str(vars.hero[0]), 10, 35, colour = consts.GREEN, outline = True)
+        blit_text("Stamina: " + str(vars.hero[1]), 10, 60, colour = consts.GREEN, outline = True)
+        blit_text("Luck: " + str(vars.hero[2]), 10, 85, colour = consts.GREEN, outline = True)
+        for item in vars.equipment:
+            equip_str += item + ", "
+        equip_str = equip_str[0:-2]
+        blit_text("Gold: " + str(vars.gold), 10, 615, outline = True)
+        blit_text("Provisions: " + str(vars.provs), 10, 640, outline = True)
+        blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
+        if vars.fighting:
+            if len(vars.monster_name) < 6:
+                blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
+            elif len(vars.monster_name) < 10:
+                blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
+            else:
+                blit_text(vars.monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
+            blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
+            blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
+        if vars.dice_num != 0:
+            if vars.dice_num < 7:
+                draw_dice(vars.dice_num)
+            else:
+                if vars.dice_num - 6 < 1:
+                    num = randint(1, 6)
+                num = randint(6, vars.dice_num)
+                draw_dice(num, 575)
+                draw_dice(vars.dice_num - num, 725)
+            vars.dice_num = 0
+        pygame.display.flip()
+        if txt[-1][-1] != "?":
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return
+                    elif event.type == pygame.MOUSEBUTTONDOWN:
+                        return
+        pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
+        pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60), 2)
+        blit_text(output, 645 - 12 * len(output), 528, 40, colour = consts.BLUE, outline = True)
+        pygame.display.flip()
+        if cursor_flash % 2 == 1:
+            pygame.draw.rect(consts.screen, consts.BLACK, Rect(651 + 7 * len(output), 519, 5, 42))
+            pygame.draw.rect(consts.screen, consts.WHITE, Rect(652 + 7 * len(output), 520, 3, 40))
         for event in pygame.event.get():
-            equip_str = ""
-            surf = pygame.image.load("./images/" + vars.background).convert()
-            consts.screen.blit(surf, surf.get_rect())
-            for i in range(len(txt)):
-                text = txt[i]
-                blit_text(text, -1, consts.height // 2 + (i * 30), 40, outline = True, centerx = True)
-            blit_text("Player", 10, 10, underline = True, colour = consts.GREEN, outline = True)
-            blit_text("Skill: " + str(vars.hero[0]), 10, 35, colour = consts.GREEN, outline = True)
-            blit_text("Stamina: " + str(vars.hero[1]), 10, 60, colour = consts.GREEN, outline = True)
-            blit_text("Luck: " + str(vars.hero[2]), 10, 85, colour = consts.GREEN, outline = True)
-            for item in vars.equipment:
-                equip_str += item + ", "
-            equip_str = equip_str[0:-2]
-            blit_text("Gold: " + str(vars.gold), 10, 615, outline = True)
-            blit_text("Provisions: " + str(vars.provs), 10, 640, outline = True)
-            blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
-            if vars.fighting:
-                blit_text(vars.monster_name, 1206, 10, underline = True, colour = consts.RED, outline = True)
-                blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
-                blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
-            if vars.dice_num != 0:
-                if vars.dice_num < 7:
-                    draw_dice(vars.dice_num)
-                else:
-                    if vars.dice_num - 6 < 1:
-                        num = randint(1, 6)
-                    num = randint(6, vars.dice_num)
-                    draw_dice(num, 575)
-                    draw_dice(vars.dice_num - num, 725)
-                vars.dice_num = 0
             if event.type == pygame.QUIT:
                 pygame.quit()
-                return
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    pygame.display.flip()
+                    if output in consts.INPUTS:
+                        return output
+                    else:
+                        story("Please enter either one of the words in capitals, YES or NO.")
+                        output = ""
+                elif event.key == pygame.K_BACKSPACE:
+                    if len(output) > 0:
+                        output = output[: -1]
+                if event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
+                    output += chr(event.key).upper()
             pygame.display.flip()
-            if timer > 0:
-                sleep(timer)
-                return
-            if txt[-1][-1] == "?":
-                pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
-                pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60), 2)
-                blit_text(output, 645 - 12 * len(output), 528, 40, colour = consts.BLUE, outline = True)
-                pygame.display.flip()
-                if cursor_flash % 2 == 1:
-                    pygame.draw.rect(consts.screen, consts.BLACK, Rect(651 + 7 * len(output), 519, 5, 42))
-                    pygame.draw.rect(consts.screen, consts.WHITE, Rect(652 + 7 * len(output), 520, 3, 40))
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        pygame.display.flip()
-                        if output in consts.INPUTS:
-                            return output
-                        else:
-                            story("Please enter either one of the words in capitals, YES or NO.")
-                            output = ""
-                    elif event.key == pygame.K_BACKSPACE:
-                        if len(output) > 0:
-                            output = output[: -1]
-                    if event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
-                        output += chr(event.key).upper()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                return
+        if timer > 0:
+            sleep(timer)
+            return
+            
 
 def blit_text(txt: str, x: int, y: int, size: int=30, underline: bool=False, colour: tuple=(255, 255, 255), outline: bool=False, centerx: bool=False) -> None:
     """Blits text to the screen.
@@ -130,14 +140,6 @@ def blit_text(txt: str, x: int, y: int, size: int=30, underline: bool=False, col
         consts.screen.blit(outline_text, (x - 1, y + 1))
         consts.screen.blit(outline_text, (x - 1, y - 1))
     consts.screen.blit(main_text, (x, y))
-
-def x_clicked() -> bool:
-    """Quits the game is the cross is clicked."""
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            pygame.quit()
-            return True
-    return False
 
 def draw_dice(die_num: int, x: int=650, y: int=10) -> None:
     """
@@ -192,15 +194,14 @@ def fight(name: str, escape_round: int=99) -> bool:
                         change_stats(1, 2, "subtract")
                         vars.fighting = False
                         return False
-                if x_clicked():
-                    return False
-                dice_num = randint(2, 12)
-                hero_attack = dice_num + vars.hero[0]
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return False
+                hero_attack = randint(2, 12) + vars.hero[0]
                 story("Your Attack Strength is " + str(hero_attack) + ".", 1)
-                dice_num = randint(2, 12)
-                monster_attack = dice_num + vars.monster[0]
+                monster_attack = randint(2, 12) + vars.monster[0]
                 story("The " + name + "'s Attack Strength is " + str(monster_attack) + ".", 1)
-                sleep(1)
                 if hero_attack > monster_attack:
                     if vars.monster[1] - 2 < 0:
                         vars.monster[1] = 0
@@ -212,7 +213,7 @@ def fight(name: str, escape_round: int=99) -> bool:
                     story("The " + name + " lands a blow.", 1)
                 round += 1
             else:
-                story("The " + name + " is dead.", 1)
+                story("The " + name + " is dead.")
                 vars.fighting = False
                 return True
         else:
@@ -235,13 +236,14 @@ def change_stats(stat: int, amount: int, operation: str="add") -> None:
         return
     vars.hero[stat] += amount
 
-def stat_test(stat: int) -> any:
+def stat_test(stat: int) -> bool:
     """Generates a random number between 2 and 12 and compares it to one of the player's stats."""
     if stat == 2:
         change_stats(2, 1, "subtract")
     vars.dice_num = randint(2, 12)
     if vars.dice_num <= vars.hero[stat]:
         return True
+    return False
 
 if __name__ == "__main__":
     raise Exception
