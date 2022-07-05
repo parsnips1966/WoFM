@@ -113,7 +113,7 @@ def repeat_1():
         decision_17 = story("Shortly you reach another junction where you may either go STRAIGHT\nor turn LEFT, into a passage that soon turns north. Which will you choose?")
         if decision_17 == "STRAIGHT":
             story("The passage ends at a wooden door, trimmed in iron. Various inscriptions\nadorn the door, but none of this makes any sense to you.")
-            decision_18 = story("You listen, but hear nothing. Will you either\nOPEN the door or RETURN to the junction.")
+            decision_18 = story("You listen, but hear nothing. Will you either\nOPEN the door or RETURN to the junction?")
             if decision_18 == "OPEN":
                 story("The door opens into a small room, comfortably furnished with a table,\nseveral chairs and a large bookcase which covers one wall.")
                 story("Seated at the table is an old man with a long grey beard,\nand squatting on the old man's shoulder is a small winged beast.")
@@ -204,12 +204,12 @@ def repeat_1():
                 vars.monster = [6, 4]
                 if fight("Hand"):
                     story("The hand withers and shrinks back into the floor. At the same time,\nthe other hands stop dead and fade away down into the tiles.")
-                    vars.hero[2] += 2
+                    change_stats(2, 2)
                     story("You decide this time to step on the star-shaped tiles, and step\ncarefully across to the door. The door opens. Add 2 Luck.")
                     decision_17 = "STARS"
             if decision_17 == "STARS":
                 story("The passageway ahead runs northwards and you\nfollow this until you reach another junction.")
-                decision_17 = story("Here will you either continue NORTHwards or you may turn WESTwards")
+                decision_17 = story("Here will you either continue NORTHwards or you may turn WESTwards?")
                 if decision_17 == "NORTH":
                     story("The passageway ends in a solid doorway and you are surprised to see\na leather skirt tacked along the bottom of the door")
                     decision_17 = story("You listen but hear nothing. Will you\nENTER the room or RETURN to the junction?")
