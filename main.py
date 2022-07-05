@@ -135,13 +135,14 @@ def repeat_1():
                                         story("Choose a number.")
                                     story("Bet between 1 and the number of Gold Pieces you have.")
                                 story("He tosses the white dice he has been\nplaying with to you and asks you to roll.")
-                                dice_num = randint(2, 12)
-                                dice_roll_2 = randint(2, 12)
-                                if dice_num > dice_roll_2:
-                                    story("The old man rolls " + str(dice_roll_2) + " so you win your stake.")
+                                vars.dice_num = randint(2, 12)
+                                vars.dice_roll2 = randint(2, 12)
+                                story("You roll the dice")
+                                if vars.dice_num > vars.dice_roll2:
+                                    story("The old man rolls " + str(vars.dice_roll2) + " so you win your stake.")
                                     win = True
-                                elif dice_num < dice_roll_2:
-                                    story("The old man rolls " + str(dice_roll_2) + " so you lose your stake.")
+                                elif vars.dice_num < vars.dice_roll2:
+                                    story("The old man rolls " + str(vars.dice_roll2) + " so you lose your stake.")
                                 if vars.gold == 0:
                                     story("You have no Gold Pieces left so you must leave\nthrough the door and return to the junction.")
                                     break
@@ -468,7 +469,7 @@ def repeat_4():
 if __name__ != "__main__":
     raise Exception
 
-vars.background = "mountain.jpg"
+vars.background = "mountain"
 story("Welcome to Firetop Mountain.")
 story("You have in your possession a sword and a shield\ntogether with a rucksack containing Provisions for the trip.")
 story("You have been preparing for this quest but to see how successful you have been\nyou must use the dice to determine your initial Skill, Stamina and Luck scores.")
@@ -488,17 +489,19 @@ vars.hero[2] = dice_num + 6
 vars.init_hero.append(vars.hero[2])
 story("6 is added to your roll.")
 story("Your Skill, Stamina and Luck scores will change throughout the game\nbut rarely exceed these initial values.")
+vars.background = "archinside"
 story("You may now enter the mountain...")
+vars.monster = [9, 9]
 
-vars.background = "passage.jpg"
+vars.background = "passage"
 decision_1 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
 if decision_1 == "EAST":
-    vars.background = "door.jpg"
+    vars.background = "door"
     decision_2 = story("The passageway soon comes to an end at a locked wooden door.\nYou listen at the door but hear nothing. Will you try to charge it down?")
     if decision_2 == "YES":
         story("You charge the door with your shoulder. Test your Skill by rolling two dice\nto see if it's less than or equal to your Skill score.")
         if stat_test(0):
-            vars.background = "pit.jpg"
+            vars.background = "pit"
             story("The door bursts open and you fall headlong into a room.")
             story("But your heart jumps as you realise you are not landing on\nthe floor, but plunging down a pit of some kind!")
             change_stats(1, 1, "subtract")
@@ -507,56 +510,62 @@ if decision_1 == "EAST":
             story("You climb out and leave through the door heading westwards.")
         else:
             story("You rub your bruised shoulder and decide against\ntrying again. You turn around and head back to the junction.")
-            vars.background = "passage.jpg"
+            vars.background = "passage"
     elif decision_2 == "NO":
-        vars.background = "passage.jpg"
+        vars.background = "passage"
         story("You turn around and head back to the junction.")
+    vars.background = "archtooutside"
     story("You arrive back at the junction. You look left to see the\ncave entrance in the dim distance but walk straight on.")
     decision_1 = "WEST"
     
 if decision_1 == "WEST":
+    vars.background = "passage"
     story("There's a right-hand turn to the north. Cautiously you approach a sentry post\non the corner and see a strange goblin-like creature wearing leather armour.")
+    vars.background = "sleepingorc"
     story("He is asleep at his post so you try to tiptoe past him. Test your Luck\nby rolling 2 dice to see if it's less than or equal to your Luck score.")
     story("Each time you Test your Luck one point\nwill be subtracted from your Luck score.")
     if stat_test(2):
-        vars.background = "door.jpg"
+        vars.background = "door"
         story("You make it past. On your left,\nthe west face of the passage, there is a rough-cut wooden door.")
     else:
+        vars.background = "orc"
         story("You step with a crunch on some loose ground and his eyes flick open.")
         story("The creature that has just awakened is an Orc! He scrambles to his feet\nand turns to grasp an alarm bell. You must attack him quickly.")
         fight_tuto()
         vars.monster = [6, 5]
         if fight("Orc"):
-            vars.background = "door.jpg"
+            vars.background = "door"
             story("On your left, the west face of the passage,\nthere is a rough-cut wooden door.")
     decision_3 = story("You listen at the door and can hear a rasping sound which\nmay be some kind of creature snoring. Do you want to open the door?")
     
 if decision_3 == "YES":
-    vars.background = "room.jpg"
+    vars.background = "darkroom"
     story("The door opens to reveal a small, smelly room. In the centre is a rickety\nwooden table on which stands a lit candle. Underneath is small wooden box.")
+    vars.background = "sleepingorc"
     story("Asleep on a straw mattress is a short, stocky creature; the same sort of\ncreature you found at the sentry post. He must be the night watch guard.")
     decision_4 = story("You may either RETURN to the corridor and press on northwards\nor will you creep into the room and try to STEAL the box?")
     if decision_4 == "RETURN":
-        vars.background = "passage.jpg"
+        vars.background = "passage"
         decision_3 = "NO"
     elif decision_4 == "STEAL":
         story("Test your Luck.")
         if stat_test(2):
             story("He doesn't wake up.")
-            vars.background = "box.jpg"
+            vars.background = "box"
             story("You leave the room and open the box in the passage. Inside you find a single Piece of Gold\nand a small mouse, which must've been the creature's pet.")
             vars.gold += 1
-            vars.background = "mouse.jpg"
+            vars.background = "mouse"
             story("You keep the coin and release the mouse which scurries off down the passageway.")
             vars.hero[2] += 2
             story("You gain 2 Luck points.")
             decision_3 = "NO"
         else:
+            vars.background = "orc"
             story("The sleeping creature awakens startled.\nHe jumps up and rushes at you unarmed.")
             decision_4 = story("With your sword you should be able to defeat him but his teeth look vicious.\nWill you ESCAPE or FIGHT the Orc who is attacking you?")
             if decision_4 == "ESCAPE":
                 change_stats(1, 2, "subtract")
-                vars.background = "passage.jpg"
+                vars.background = "passage"
                 story("You run out of the room and slam the door shut\nbut the Orc has scratched you with its teeth.")
                 story("You turn northwards up the passageway passing a similar-looking door further up.")
                 decision_3 = "NO"
@@ -564,30 +573,32 @@ if decision_3 == "YES":
                 fight_tuto()
                 vars.monster = [6, 4]
                 if fight("Orc"):
-                    vars.background = "passage.jpg"
+                    vars.background = "passage"
                     story("You leave and open the box in the passage. Inside you find a single Piece of Gold\nand a small mouse, which must have been the creature's pet.")
                     vars.gold += 1
-                    vars.background = "mouse.jpg"
+                    vars.background = "mouse"
                     story("You keep the coin and release the mouse which scurries off down the passageway.")
                     vars.hero[2] += 2
                     story("You gain 2 Luck points.")
                     decision_3 = "NO"
         
 if decision_3 == "NO":
-    vars.background = "door.jpg"
+    vars.background = "door"
     decision_5 = story("Further up the passage along the west wall you see another door.\nYou listen at it but hear nothing. Do you want to try opening the door?")
   
 if decision_5 == "YES":
-    vars.background = "room.jpg"
+    vars.background = "room"
     story("The door opens to reveal a small room with dirty walls. In the centre\nof the room is a makeshift wooden table on which is standing a lit candle.")
     decision_6 = story("Under the table is a small box.\nWill you either OPEN the box or LEAVE the room?")
     if decision_6 == "OPEN":
-        vars.background = "box.jpg"
+        vars.background = "box"
         story("The box is light, but something rattles within.\nYou open the lid and a small Snake darts out to bite at your wrist!")
+        vars.background = "snake"
         story("You must fight the snake.")
         fight_tuto()
         vars.monster = [5, 2]
         if fight("Snake"):
+            vars.background = "key"
             story("The box has fallen to the ground during your fight with the Snake and\nout of it has fallen a bronze-coloured key with the number 99 carved into it.")
             vars.equipment.append("99 Key")
             story("You take this key with you and leave the room.")
@@ -596,12 +607,12 @@ if decision_5 == "YES":
         decision_5 = "NO"
 
 if decision_5 == "NO":
-    vars.background = "door.jpg"
+    vars.background = "door"
     story("Further up the passage on the west wall you see another similar door. You listen\nand grimace to hear the worst singing you have ever heard in your life!")
     decision_7 = story("Do you want to go into the room to investigate this hideous din?")
 
 if decision_7 == "YES":
-    vars.background = "room.jpg"
+    vars.background = "room"
     story("The door opens to reveal a small, unkempt room. In the centre\nis a wooden table upon which a candle burns, lighting the room with its flickering flame.")
     story("A small box rests under the table. Seated around the table are\ntwo small creatures with warty skin, dressed in leather armour.")
     story("They are drinking some sort of grog and, by the way they stagger to their feet\non your arrival, you assume they are very drunk.")
@@ -611,15 +622,17 @@ if decision_7 == "YES":
         story("You must attack each one in turn. Their drunkenness allows you to\nadd 1 to your dice roll when working out your Attack Strength.")
         #make work
         fight_tuto()
+        vars.background = "orc"
         vars.monster = [5, 4]
         if fight("First Orc"):
             vars.monster = [5, 5]
             if fight("Second Orc"):
                 story("You wipe your bloodied sword on the mattress. The green blood\nleaves a slimy stain on the straw mattress.")
-                vars.background = "box.jpg"
+                vars.background = "box"
                 story("Stepping over the bodies towards the table, you pick up the box from under the table\nand examine it. It is a small wooden box with crude hinges.")
                 decision_8 = story("The name Farrigo Di Maggio is inscribed on a brass namplate on its lid.\nDo you wish to OPEN the box or LEAVE it behind?")
                 if decision_8 == "OPEN":
+                    vars.background = "book"
                     story("The box contains a small leather-bound book entitled 'The Making and\nCasting of Dragonfire'. You open the pages and begin to read.")
                     story("Fortunately it's written in your language and probably not understood by Orcs\n- or it would certainly not be as loosely guarded as it was.")
                     story("The book is written in tiny writing by Farrigo Di Maggio.\nHe tells the story of his life's work; creation of the Dragonfire spell.")
@@ -638,10 +651,10 @@ if decision_7 == "YES":
         decision_7 = "NO"
         
 if decision_7 == "NO":
-    background = "passage.jpg"
+    background = "passage"
     decision_8 = story("You eventually arrive at the end of the passage, at a three-way junction.\nWill you turn either to the WEST or to the EAST?")
     if decision_8 == "WEST":
-        vars.background = "door.jpg"
+        vars.background = "door"
         story("The passageway runs straight for several metres and then ends in a wooden door.\nYou listen at the door and hear angry shouting coming from within.")
         decision_8 = story("Will you investigate?")
         if decision_8 == "YES":
@@ -651,6 +664,7 @@ if decision_7 == "NO":
             story("With the whip in his hand, the Orc Chieftain has been beating his servant,\nwho is whimpering beneath him. Will you:")
             decision_9 = story("Attack them BOTH?\nSpring at the CHIEFTAIN in the hope his servant will aid you?\nLEAVE the room and head back for the junction?")
             if decision_9 == "CHIEFTAIN":
+                vars.background = "orc"
                 story("As you spring at the Chieftain, his servant rises to his feet, picks up a hefty club\nand joins the melee. But to your horror he attacks you!")
                 decision_10 = story("Seeing this will you ESCAPE through the door down the corridor or CONTINUE the fight.")
                 if decision_10 == "ESCAPE":
@@ -661,6 +675,7 @@ if decision_7 == "NO":
                 elif decision_10 == "CONTINUE":
                     decision_9 = "BOTH"
             if decision_9 == "BOTH":
+                vars.background = "orc"
                 fight_tuto()
                 story("The battle commences!")
                 vars.monster = [7, 6]
@@ -668,7 +683,7 @@ if decision_7 == "NO":
                     vars.monster = [5, 3]
                     if fight("Servant"):
                         story("The green blood of the dead Orcs smells foul as it seeps from their bodies.\nYou step around the corpses and investigate the chest.")
-                        vars.background = "box.jpg"
+                        vars.background = "box"
                         story("It is a sturdy affair, made of strong oak and iron, and it is firmly locked.")
                         decision_9 = story("Will you try to SMASH the lock with your sword\nor leave it alone and GO through the open door.")
                         if decision_9 == "SMASH":
@@ -691,24 +706,24 @@ if decision_7 == "NO":
                                 vars.equipment.append("Invisibility Potion")
                                 vars.equipment.append("Silk Glove")
                                 story("You put all of these into your haversack and leave the room.")
-                                vars.background = "passage.jpg"
                                 decision_8 = "NO"
                         elif decision_9 == "GO":
                             decision_8 = "NO"
             elif decision_9 == "LEAVE":
                 decision_8 = "NO"
         if decision_8 == "NO":
+            vars.background = "passage"
             story("You arrive back at the junction in the passage and walk straight on eastwards.")
             decision_8 = "EAST"
     if decision_8 == "EAST":
         decision_11 = story("You arrive at another junction in the passage.\nWill you either go NORTHwards or continue WESTwards?")
 
 if decision_11 == "WEST":
-    vars.background = "door.jpg"
+    vars.background = "door"
     story("The passage ends at a solid wooden door with metal hinges. Listening at the door,\nyou hear strange mutterings and the clatter of what could be pots and pans.")
     decision_12 = story("Whatever is in there, there are several of them.\nDo you want to go through the door?")
     if decision_12 == "YES":
-        vars.background = "room.jpg"
+        vars.background = "fiveorcs"
         story("You open the door into a large room which can only only be the dining room\nof the same warty-faced creatures you now recognise.")
         story("Sitting around a large table are five Orcs busily drinking\nand dribbling their bowls of rat-gizzard soup.")
         story("All are involved in a rowdy arguement as to who will get to chew the rat bones\nleft in the large soup cauldron, so they do not see you enter.")
@@ -722,6 +737,7 @@ if decision_11 == "WEST":
                 decision_13 = "ATTACK"
         if decision_13 == "ATTACK":
             story("The Orcs attack you one at a time.")
+            vars.background = "orc"
             vars.monster = [6, 4]
             if fight("First Orc", 1):
                 vars.monster = [5, 3]
@@ -752,12 +768,12 @@ if decision_11 == "WEST":
                                     story("You leave it behind and walk out of the door.")
                                     decision_12 = "NO"
     if decision_12 == "NO":
-        vars.background = "passage.jpg"
+        vars.background = "passage"
         story("You move swiftly down the passage and arrive back\nat the junction. You turn northwards this time.")
         decision_11 = "NORTH"
 
 if decision_11 == "NORTH":
-    vars.background = "door.jpg"
+    vars.background = "door"
     story("You see a well-used door on the right-hand(east) side of the passageway.\nWith your ear to the keyhole, you hear a man screaming for help from inside.")
     decision_11 = story("Will you OPEN the door or WALK on?")
     if decision_11 == "OPEN":
@@ -766,7 +782,7 @@ if decision_11 == "NORTH":
             story("The door remains locked, you bruise your\nshoulder and you must progress up the passage.")
             decision_11 = "WALK"
         else:
-            vars.background = "room.jpg"
+            vars.background = "darkroom"
             story("The locked door bursts open and a nauseating stench hits your nostrils.\nInside, the floor is covered with bones, rotting vegetation and slime.")
             story("A wild-haired old man, clothed in rags, rushes at you screaming.\nHis beard is long and grey, and he is waving an old wooden chair-leg.")
             decision_12 = story("Is he as insane as he appears, or is this some kind of trap?\nWill you either SHOUT to try to calm him down or draw your sword and ATTACK.")
@@ -784,10 +800,10 @@ if decision_11 == "NORTH":
                 story("You lunge at the old man as he leaps towards you with outstretched arms\n- and run him through the chest with your sword.")
                 story("You curse as you realise he was making no attempt to attack; his wild excitement\nmust merely have been relief after being imprisoned for so long.")
                 story("You will now get no information out of him on the perils of\nthe adventure ahead. You progress up the passageway.")
-                vars.background = "passage.jpg"
+                vars.background = "passage"
                 decision_11 = "WALK"
     if decision_11 == "WALK":
-        vars.background = "door.jpg"
+        vars.background = "door"
         decision_14 = story("Further up the passage you see a door in the east wall. You listen hard\nbut can hear no sound. Do you want to investigate?")
 
 if decision_14 == "YES":
@@ -797,12 +813,12 @@ if decision_14 == "YES":
         if not stat_test(0):
             change_stats(1, 1, "subtract")
             story("The door shudders but does not budge\nand you wince in pain.")
-            vars.background = "passage.jpg"
+            vars.background = "passage"
             story("You continue up the corridor.")
             decision_13 = "NO"
         else:
             story("The door splits along its length and you can\nwrench the timbers apart to let yourself in.")
-            vars.background = "room.jpg"
+            vars.background = "room"
             story("A torch hangs from one wall lighting up a small armoury room stocked with\nswords, shields, helmets, daggers, breastplates and the like.")
             story("You examine the weaponry and find nothing superior to your sword. However,\nan iron shield with a golden crescent at its centre catches your eye.")
             story("You pick it up and feel its weight on your arm. If you wish to take this shield\nit will aid you in battles by helping to fend off wound damage.")
@@ -819,11 +835,11 @@ if decision_14 == "YES":
             #why on earth does this not work now *sigh
 
 if decision_14 == "NO":
-    vars.background = "door.jpg"
+    vars.background = "door"
     story("On the east wall of the passage you see another door, this time made of solid metal.\nListening at the door you hear tortured screams coming from within.")
     decision_14 = story("Do you wish to try opening the door?")
     if decision_14 == "YES":
-        vars.background = "room.jpg"
+        vars.background = "room"
         story("The door is not locked and opens. The room in front of you seems to be a\nsmall torture chamber, with various torture devices around the walls.")
         story("In the centre, two small, hunchbacked creatures are having their fiendish way\nwith a Dwarf, who is tied to a hook in the ceiling by his wrists.")
         story("The two hunchbacks are poking and cutting him viciously with their swords.\nThe Dwarf lets out a final scream and falls silent, eyes closed.")
@@ -845,7 +861,7 @@ if decision_14 == "NO":
             story("They disappear out of the room and you cut down the Dwarf who is, as you guessed,\nquite dead. You decide it best to leave and press on northwards.")
             decision_14 = "NO"
     if decision_14 == "NO":
-        vars.background = "passage.jpg"
+        vars.background = "passage"
         story("You arrive at the passage's end, where it meets another going east-west.\nAn iron portcullis blocks your way and no amount of charging will budge it.")
         decision_16 = story("On the wall are two levers and it seems these have something to do\nwith the portcullis. Do you wish to pull the RIGHT or LEFT lever?")
 
@@ -1117,13 +1133,12 @@ pygame.quit()
 #you can face the Winged Gremlin twice
 #add animations when changing stats
 #make it so you can go to all 3 walls
-#make a dice for old man
-#change stats for luck test
 #add sound
 #add more images
 #I've a feeling I'm missing a bit maybe with a vampire
 #fix dice
-#improve speed
-#make timing in fight consistant
-#better room image
-#make all monster names fit
+#make escaping do what it says
+#line 243, in change_stats
+#    if vars.hero[stat] + amount > vars.init_hero[stat]:
+#TypeError: '>' not supported between instances of 'int' and 'list'
+#error after failing to get into shield room
