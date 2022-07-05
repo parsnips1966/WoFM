@@ -135,13 +135,14 @@ def repeat_1():
                                         story("Choose a number.")
                                     story("Bet between 1 and the number of Gold Pieces you have.")
                                 story("He tosses the white dice he has been\nplaying with to you and asks you to roll.")
-                                dice_num = randint(2, 12)
-                                dice_roll_2 = randint(2, 12)
-                                if dice_num > dice_roll_2:
-                                    story("The old man rolls " + str(dice_roll_2) + " so you win your stake.")
+                                vars.dice_num = randint(2, 12)
+                                vars.dice_roll2 = randint(2, 12)
+                                story("You roll the dice")
+                                if vars.dice_num > vars.dice_roll2:
+                                    story("The old man rolls " + str(vars.dice_roll2) + " so you win your stake.")
                                     win = True
-                                elif dice_num < dice_roll_2:
-                                    story("The old man rolls " + str(dice_roll_2) + " so you lose your stake.")
+                                elif vars.dice_num < vars.dice_roll2:
+                                    story("The old man rolls " + str(vars.dice_roll2) + " so you lose your stake.")
                                 if vars.gold == 0:
                                     story("You have no Gold Pieces left so you must leave\nthrough the door and return to the junction.")
                                     break
@@ -491,7 +492,6 @@ story("Your Skill, Stamina and Luck scores will change throughout the game\nbut 
 vars.background = "archinside"
 story("You may now enter the mountain...")
 vars.monster = [9, 9]
-fight("Giant Sandworm")
 
 vars.background = "passage"
 decision_1 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
@@ -1133,12 +1133,12 @@ pygame.quit()
 #you can face the Winged Gremlin twice
 #add animations when changing stats
 #make it so you can go to all 3 walls
-#make a dice for old man
-#change stats for luck test
 #add sound
 #add more images
 #I've a feeling I'm missing a bit maybe with a vampire
 #fix dice
-#improve speed
-#make timing in fight consistant
-#make all monster names fit
+#make escaping do what it says
+#line 243, in change_stats
+#    if vars.hero[stat] + amount > vars.init_hero[stat]:
+#TypeError: '>' not supported between instances of 'int' and 'list'
+#error after failing to get into shield room

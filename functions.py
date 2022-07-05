@@ -76,6 +76,16 @@ def story(txt: str, timer: int=0) -> str:
                 draw_dice(num, 575)
                 draw_dice(vars.dice_num - num, 725)
             vars.dice_num = 0
+        if vars.dice_num2 != 0:
+            if vars.dice_num2 < 7:
+                draw_dice(vars.dice_num2, y=500)
+            else:
+                if vars.dice_num2 - 6 < 1:
+                    num = randint(1, 6)
+                num = randint(6, vars.dice_num2)
+                draw_dice(num, 575, 500)
+                draw_dice(vars.dice_num2 - num, 725, 500)
+            vars.dice_num2 = 0
         pygame.display.flip()
         if txt[-1][-1] != "?":
             while True:
@@ -113,7 +123,6 @@ def story(txt: str, timer: int=0) -> str:
             sleep(timer)
             return
             
-
 def blit_text(txt: str, x: int, y: int, size: int=30, underline: bool=False, colour: tuple=(255, 255, 255), outline: bool=False, centerx: bool=False) -> None:
     """Blits text to the screen.
     :param txt: The text to blit to the screen.
@@ -231,7 +240,7 @@ def change_stats(stat: int, amount: int, operation: str="add") -> None:
             return story("You are dead.")
         vars.hero[stat] -= amount
         return
-    if vars.hero[stat] + amount > vars.init_hero[stat]:
+    if (vars.hero[stat] + amount) > vars.init_hero[stat]:
         vars.hero[stat] = vars.init_hero[stat]
         return
     vars.hero[stat] += amount
