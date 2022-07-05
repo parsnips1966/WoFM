@@ -3,6 +3,7 @@
 from time import sleep
 from random import randint
 import pygame
+from pygame import mixer
 from pygame.locals import *
 import variables as vars
 import constants as consts
@@ -94,6 +95,7 @@ def story(txt: str, timer: int=0) -> str:
                         pygame.quit()
                         return
                     elif event.type == pygame.MOUSEBUTTONDOWN:
+                        consts.click.play()
                         return
         pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
         pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60), 2)

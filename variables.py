@@ -5,6 +5,7 @@ provs = 0
 hero = [0, 0, 0]
 init_hero = []
 dice_num = 0
+dice_num2 = 0
 equipment = []
 monster = [0, 0]
 monster_name = ""
