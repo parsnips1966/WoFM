@@ -1,7 +1,7 @@
 """Contains all the variables used including the user's items and stats and variables which control whether sections of the program run."""
 
 gold = 0
-provs = 0
+provs = 10
 hero = [0, 0, 0]
 init_hero = []
 dice_num = 0

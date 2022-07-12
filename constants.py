@@ -1,9 +1,6 @@
 """Contains all the constants used including colours and all the words which the user is allowed to input."""
 
 import pygame
-from pygame import mixer
-
-pygame.mixer.init()
 
 width = 1300
 height = 700
@@ -18,6 +15,3 @@ INPUTS = ["YES", "NO", "EAST", "WEST", "RETURN", "STEAL", "ESCAPE", "FIGHT", "OP
     "RING", "PUNT", "BRIDGE", "SWIM", "TAKE", "REST", "STRAIGHT", "SIT", "ACCEPT", "RUSH", "STARS", "HANDS", "KEY", "DASH", "DRINK", "PASS", "BRONZE", "IRON", "LOOK",
     "WEAPON", "SLASH", "PLUNGE", "CHEESE", "WOOD", "ROPE", "SHIELD", "125 KEY", "99 KEY", "111 KEY", "66 KEY", "9 KEY"
     ]
-
-#sounds
-click = mixer.Sound('./sounds/click1.wav')
