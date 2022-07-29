@@ -31,93 +31,138 @@ def take_provs() -> None:
     else:
         story("You have no Provisions left.")
 
-def story(txt: str, timer: int=0) -> str:
+def story(txt: str, timer: int=0, escape: bool=False) -> str:
     """Initialises the display and all the items on it.
     Allows the player to click to move on and to type if the game asks a question.
     :param txt: The main text which appears in the centre of the screen.
     """
     output = ""
-    cursor_flash = 0
+    #cursor_flash = 0
     txt = txt.split("\n")
-    while True:
-        cursor_flash += 1
-        equip_str = ""
-        surf = pygame.image.load("./images/" + vars.background + ".jpg").convert()
-        consts.screen.blit(surf, surf.get_rect())
-        for i in range(len(txt)):
-            text = txt[i]
-            blit_text(text, -1, consts.height // 2 + (i * 30), 40, outline = True, centerx = True)
-        blit_text("Player", 10, 10, underline = True, colour = consts.GREEN, outline = True)
-        blit_text("Skill: " + str(vars.hero[0]), 10, 35, colour = consts.GREEN, outline = True)
-        blit_text("Stamina: " + str(vars.hero[1]), 10, 60, colour = consts.GREEN, outline = True)
-        blit_text("Luck: " + str(vars.hero[2]), 10, 85, colour = consts.GREEN, outline = True)
-        for item in vars.equipment:
-            equip_str += item + ", "
-        equip_str = equip_str[0:-2]
-        blit_text("Gold: " + str(vars.gold), 10, 615, outline = True)
-        blit_text("Provisions: " + str(vars.provs), 10, 640, outline = True)
-        blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
-        if vars.fighting:
-            if len(vars.monster_name) < 6:
-                blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
-            elif len(vars.monster_name) < 10:
-                blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
-            else:
-                blit_text(vars.monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
-            blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
-            blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
-        if vars.dice_num != 0:
-            if vars.dice_num < 7:
-                draw_dice(vars.dice_num)
-            else:
-                if vars.dice_num - 6 < 1:
-                    num = randint(1, 6)
-                num = randint(6, vars.dice_num)
-                draw_dice(num, 575)
-                draw_dice(vars.dice_num - num, 725)
-            vars.dice_num = 0
-        if vars.dice_num2 != 0:
-            if vars.dice_num2 < 7:
-                draw_dice(vars.dice_num2, y=500)
-            else:
-                if vars.dice_num2 - 6 < 1:
-                    num = randint(1, 6)
-                num = randint(6, vars.dice_num2)
-                draw_dice(num, 575, 500)
-                draw_dice(vars.dice_num2 - num, 725, 500)
-            vars.dice_num2 = 0
-        pygame.display.flip()
-        if txt[-1][-1] != "?":
-            while True:
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        return
-                    elif event.type == pygame.MOUSEBUTTONDOWN:
-                        return
+    equip_str = ""
+    consts.screen.fill(consts.BLACK)
+    surf = pygame.image.load("./images/" + vars.background + ".jpg").convert()
+    consts.screen.blit(surf, surf.get_rect())
+    for i in range(len(txt)):
+        text = txt[i]
+        blit_text(text, -1, consts.height // 2 + (i * 30), 40, outline = True, centerx = True)
+    if txt[-1][-1] == "?" or escape:
         pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
-        pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60), 2)
-        blit_text(output, 645 - 12 * len(output), 528, 40, colour = consts.BLUE, outline = True)
-        pygame.display.flip()
-        if cursor_flash % 2 == 1:
-            pygame.draw.rect(consts.screen, consts.BLACK, Rect(651 + 7 * len(output), 519, 5, 42))
-            pygame.draw.rect(consts.screen, consts.WHITE, Rect(652 + 7 * len(output), 520, 3, 40))
+        pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
+    blit_text("Player", 10, 10, underline = True, colour = consts.GREEN, outline = True)
+    blit_text("Skill: " + str(vars.hero[0]), 10, 35, colour = consts.GREEN, outline = True)
+    blit_text("Stamina: " + str(vars.hero[1]), 10, 60, colour = consts.GREEN, outline = True)
+    blit_text("Luck: " + str(vars.hero[2]), 10, 85, colour = consts.GREEN, outline = True)
+    for item in vars.equipment:
+        equip_str += item + ", "
+    equip_str = equip_str[0:-2]
+    blit_text("Gold: " + str(vars.gold), 10, 615, outline = True)
+    blit_text("Provisions: " + str(vars.provs), 10, 640, outline = True)
+    blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
+    if vars.fighting:
+        if len(vars.monster_name) < 6:
+            blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
+        elif len(vars.monster_name) < 10:
+            blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
+        else:
+            blit_text(vars.monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
+        blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
+        blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
+    if vars.dice_num != 0:
+        if vars.dice_num < 7:
+            draw_dice(vars.dice_num)
+        else:
+            if vars.dice_num - 6 < 1:
+                num = randint(1, 6)
+            num = randint(6, vars.dice_num)
+            draw_dice(num, 575)
+            draw_dice(vars.dice_num - num, 725)
+        vars.dice_num = 0
+    if vars.dice_num2 != 0:
+        if vars.dice_num2 < 7:
+            draw_dice(vars.dice_num2, y=500)
+        else:
+            if vars.dice_num2 - 6 < 1:
+                num = randint(1, 6)
+            num = randint(6, vars.dice_num2)
+            draw_dice(num, 575, 500)
+            draw_dice(vars.dice_num2 - num, 725, 500)
+        vars.dice_num2 = 0
+    pygame.display.flip()
+    while True:
+        #cursor_flash += 1
+        #if cursor_flash % 2 == 1:
+        #    pygame.draw.rect(consts.screen, consts.BLACK, Rect(651 + 7 * len(output), 519, 5, 42))
+        #    pygame.draw.rect(consts.screen, consts.WHITE, Rect(652 + 7 * len(output), 520, 3, 40))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    pygame.display.flip()
-                    if output in consts.INPUTS:
-                        return output
-                    else:
-                        story("Please enter either one of the words in capitals, YES or NO.")
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                pygame.display.flip()
+                if txt[-1][-1] == "?" or vars.fighting:
+                    if output not in consts.INPUTS:
+                        blit_text("Please enter either one of the words in capitals, YES or NO.", 0, 100, 40, outline=False, centerx=True)
                         output = ""
-                elif event.key == pygame.K_BACKSPACE:
+                        equip_str = ""
+                        surf = pygame.image.load("./images/" + vars.background + ".jpg").convert()
+                        consts.screen.blit(surf, surf.get_rect())
+                        for i in range(len(txt)):
+                            text = txt[i]
+                            blit_text(text, -1, consts.height // 2 + (i * 30), 40, outline = True, centerx = True)
+                        if txt[-1][-1] == "?":
+                            pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
+                            pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
+                        blit_text("Player", 10, 10, underline = True, colour = consts.GREEN, outline = True)
+                        blit_text("Skill: " + str(vars.hero[0]), 10, 35, colour = consts.GREEN, outline = True)
+                        blit_text("Stamina: " + str(vars.hero[1]), 10, 60, colour = consts.GREEN, outline = True)
+                        blit_text("Luck: " + str(vars.hero[2]), 10, 85, colour = consts.GREEN, outline = True)
+                        for item in vars.equipment:
+                            equip_str += item + ", "
+                        equip_str = equip_str[0:-2]
+                        blit_text("Gold: " + str(vars.gold), 10, 615, outline = True)
+                        blit_text("Provisions: " + str(vars.provs), 10, 640, outline = True)
+                        blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
+                        if vars.fighting:
+                            if len(vars.monster_name) < 6:
+                                blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
+                            elif len(vars.monster_name) < 10:
+                                blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
+                            else:
+                                blit_text(vars.monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
+                            blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
+                            blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
+                        if vars.dice_num != 0:
+                            if vars.dice_num < 7:
+                                draw_dice(vars.dice_num)
+                            else:
+                                if vars.dice_num - 6 < 1:
+                                    num = randint(1, 6)
+                                num = randint(6, vars.dice_num)
+                                draw_dice(num, 575)
+                                draw_dice(vars.dice_num - num, 725)
+                            vars.dice_num = 0
+                        if vars.dice_num2 != 0:
+                            if vars.dice_num2 < 7:
+                                draw_dice(vars.dice_num2, y=500)
+                            else:
+                                if vars.dice_num2 - 6 < 1:
+                                    num = randint(1, 6)
+                                num = randint(6, vars.dice_num2)
+                                draw_dice(num, 575, 500)
+                                draw_dice(vars.dice_num2 - num, 725, 500)
+                            vars.dice_num2 = 0
+                        pygame.display.flip()
+                        continue
+                return output
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
                     if len(output) > 0:
                         output = output[: -1]
-                if event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
+                elif event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
                     output += chr(event.key).upper()
+                    pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
+                    pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
+                blit_text(output, 645 - 12 * len(output), 528, 40, colour = consts.BLUE, outline = True)
             pygame.display.flip()
         if timer > 0:
             sleep(timer)
@@ -186,51 +231,7 @@ def draw_dice(die_num: int, x: int=650, y: int=10) -> None:
         pygame.draw.circle(consts.screen, consts.BLACK, (x - 25, 225), y)
         pygame.draw.circle(consts.screen, consts.BLACK, (x + 25, 225), y)
 
-def fight(name: str, escape_round: int=99) -> bool:
-    """Controls fights between the player and a monster.
-    :param name: The name of the player's opponent.
-    :param escape_round: The round number from which the user has the choice to escape.
-    """
-    vars.fighting = True
-    vars.monster_name = name
-    round = 1
-    while True:
-        if vars.hero[1] > 0:
-            if vars.monster[1] > 0:
-                if round >= escape_round:
-                    if story("Do you want to ESCAPE to run away?") == "ESCAPE":
-                        story("You escaped.")
-                        change_stats(1, 2, "subtract")
-                        vars.fighting = False
-                        vars.escape = True
-                        return False
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        return False
-                hero_attack = randint(2, 12) + vars.hero[0]
-                story("Your Attack Strength is " + str(hero_attack) + ".", 1)
-                monster_attack = randint(2, 12) + vars.monster[0]
-                story("The " + name + "'s Attack Strength is " + str(monster_attack) + ".", 1)
-                if hero_attack > monster_attack:
-                    if vars.monster[1] - 2 < 0:
-                        vars.monster[1] = 0
-                    else:
-                        vars.monster[1] -= 2
-                    story("You land a blow.", 1)
-                elif hero_attack < monster_attack:
-                    change_stats(1, -2)
-                    story("The " + name + " lands a blow.", 1)
-                round += 1
-            else:
-                story("The " + name + " is dead.")
-                vars.fighting = False
-                return True
-        else:
-            story("You are dead.", 999)
-            return False
-
-def change_stats(stat: int, amount: int, operation: str="add") -> None:
+def change_stats(stat: int, amount: int, operation: str="") -> None:
     """Changes one of the player's stats by an amount.
     :param stat: The stat which will be changed.
     :param amount: How much the stat will be changed by.
@@ -241,10 +242,52 @@ def change_stats(stat: int, amount: int, operation: str="add") -> None:
             return story("You are dead.")
         vars.hero[stat] -= amount
         return
-    if (vars.hero[stat] + amount) > vars.init_hero[stat]:
+    num = vars.hero[stat] + amount
+    if num > vars.init_hero[stat]:
         vars.hero[stat] = vars.init_hero[stat]
         return
     vars.hero[stat] += amount
+
+def fight(name: str, escape_round: int=99) -> bool:
+    """Controls fights between the player and a monster.
+    :param name: The name of the player's opponent.
+    :param escape_round: The round number from which the user has the choice to escape.
+    """
+    vars.fighting = True
+    vars.monster_name = name
+    round = 1
+    escape = round>=escape_round
+    while True:
+        if vars.hero[1] > 0:
+            if vars.monster[1] > 0:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        return False
+                hero_attack = randint(2, 12) + vars.hero[0]
+                if story("Your Attack Strength is " + str(hero_attack) + ".", 1, escape) == "ESCAPE":
+                    if escape:
+                        vars.escape = True
+                        return
+                monster_attack = randint(2, 12) + vars.monster[0]
+                story("The " + name + "'s Attack Strength is " + str(monster_attack) + ".", 1, escape)
+                if hero_attack > monster_attack:
+                    if vars.monster[1] - 2 < 0:
+                        vars.monster[1] = 0
+                    else:
+                        vars.monster[1] -= 2
+                    story("You land a blow.", 1, escape)
+                elif hero_attack < monster_attack:
+                    change_stats(1, 2, "subtract")
+                    story("The " + name + " lands a blow.", 1, escape)
+                round += 1
+            else:
+                story("The " + name + " is dead.", 1, escape)
+                vars.fighting = False
+                return True
+        else:
+            story("You are dead.", 999)
+            return False
 
 def stat_test(stat: int) -> bool:
     """Generates a random number between 2 and 12 and compares it to one of the player's stats."""

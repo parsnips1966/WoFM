@@ -23,7 +23,7 @@ def repeat_1():
             story("Before you can collect your thoughts, a large, ugly head\npokes around the corner and a Troll emerges from its chamber.")
             story("Your ankle is twisted and you cannot move quickly, but\nthe Troll is ready for a fight. You will have to face the brute.")
             if "Invisibility Potion" in vars.equipment:
-                vars.equipment.remove(vars.equipment.index("Invisibility Potion"))
+                vars.equipment.remove("Invisibility Potion")
                 story("You drink the Potion and can see the look of\nastonishment spread across the Troll's face.")
                 story("He comes up to you and he gropes the air fruitlessly. He thrashes around,\nclutching for you, but you are easily able to sidestep him.")
                 story("Eventually he gives up and returns to his chamber,\njust in time, as you feel yourself reappearing.")
@@ -40,7 +40,7 @@ def repeat_1():
                     story("Each is around a metre long and their\ntatty coats indicate that they are fighters.")
                     story("You will have to take them on if you are going to get\nthrough the room, as they no doubt see you as a tasty meal.")
                     if "Cheese" in vars.equipment:
-                        vars.equipment.remove(vars.equipment.index("Cheese"))
+                        vars.equipment.remove("Cheese")
                         story("You take the Cheese in your sack and toss it across the room.\nThe Rats scramble for it, scratching each other as they fight.")
                         vars.hero[2] += 2
                         story("Having distracted them, you pass through the room\nand leave by the door in the north wall.")
@@ -191,7 +191,6 @@ def repeat_1():
                             story("You make it across to the far door and can leave the room.")
                             decision_17 = "STARS"
                 else:
-                    #make work
                     story("You are unlucky and step on a hand tile.")
                     decision_17 = "HANDS"
             elif decision_17 == "STARS":
@@ -289,7 +288,7 @@ def repeat_2():
             decision_17 = story("Will you try to OPEN the door or you can go BACK to the junction.")
             if decision_17 == "OPEN":
                 story("The room is unoccupied and there\nseems to be no other means of exit.")
-                story("In the centre of the floor stands a table, and on this\ntable are two helments; one of bronze and one of iron.")
+                story("In the centre of the floor stands a table, and on this\ntable are two helmets; one of bronze and one of iron.")
                 story("Both are about your size. Will you:")
                 decision_17 = story("Try on the BRONZE helmet?\nTry on the IRON helmet?\nRETURN to the junction?")
                 if decision_17 == "BRONZE":
@@ -300,13 +299,14 @@ def repeat_2():
                     decision_17 = "BACK"
                 elif decision_17 == "IRON":
                     story("You place the helmet on your head. It fits well.")
-                    story("A glow fills your body and you seem to possess a power\nand confidence neyond anything you have felt before.")
+                    story("A glow fills your body and you seem to possess a power\nand confidence beyond anything you have felt before.")
                     story("This helmet is blessed with magic and will allow you to\nadd 1 point to all future Attack Strengths.")
+                    #make work
                     vars.equipment.append("Iron Helmet")
                     decision_16 = "BACK"
                 if decision_17 == "RETURN":
                     decision_16 = "BACK"
-            elif decision_16 == "BACK":
+            if decision_16 == "BACK":
                 story("You arrive back at the junction and this time turn northwards.")
                 decision_16 = "NORTH"
         if decision_16 == "NORTH":
@@ -346,7 +346,7 @@ def repeat_2():
                             story("As you put the two swords into your belt,\nyour new one seems to take on a mind of its own.")
                             change_stats(1, 1, "subtract")
                             story("It cuts your leg and, as you draw\nit out, it turns rubbery in your hand.")
-                            vars.equipment.remove(vars.equipment.index("Good Sword"))
+                            vars.equipment.remove("Good Sword")
                             story("It's useless so you fling it into the river.\nIt seems the only way is for you to swim downriver.")
                             story("You plunge in and start swimming.")
                             decision_16 = "ESCAPE"
@@ -440,7 +440,7 @@ def repeat_3():
                 decision_17 = story("If you wish to take the pieces of wood you must\nchoose one item of equipment to leave behind. Which will you choose?")
                 while decision_17 not in vars.equipment:
                     decision_17 = story("You don't have that. Which piece of equipment will you choose from your pack.")
-                vars.equipment.remove(vars.equipment.index(decision_17.title()))
+                vars.equipment.remove(decision_17.title())
                 decision_16 = story("Will you either LEAVE through the north door or stay and examine the ROPE?")
             if decision_16 == "ROPE":
                 story("You pick up the rope. It looks normal. In fact it looks as if\nit might be quite useful. You open your pack to put it in.")
@@ -491,7 +491,6 @@ story("6 is added to your roll.")
 story("Your Skill, Stamina and Luck scores will change throughout the game\nbut rarely exceed these initial values.")
 vars.background = "archinside"
 story("You may now enter the mountain...")
-vars.monster = [9, 9]
 
 vars.background = "passage"
 decision_1 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
@@ -651,14 +650,14 @@ if decision_7 == "YES":
         decision_7 = "NO"
         
 if decision_7 == "NO":
-    background = "passage"
+    vars.background = "passage"
     decision_8 = story("You eventually arrive at the end of the passage, at a three-way junction.\nWill you turn either to the WEST or to the EAST?")
     if decision_8 == "WEST":
         vars.background = "door"
         story("The passageway runs straight for several metres and then ends in a wooden door.\nYou listen at the door and hear angry shouting coming from within.")
         decision_8 = story("Will you investigate?")
         if decision_8 == "YES":
-            vars.background = "room'jpg"
+            vars.background = "room"
             story("You open the door to a large room. A large chair behind a solid-looking table\nsuggests to you that someone, or something, of rank uses this room.")
             story("A chest in the centre catches your eye. In the corner stands a\nman-sized creature with a warty face, standing over a small creature of similar race.")
             story("With the whip in his hand, the Orc Chieftain has been beating his servant,\nwho is whimpering beneath him. Will you:")
@@ -716,9 +715,9 @@ if decision_7 == "NO":
             story("You arrive back at the junction in the passage and walk straight on eastwards.")
             decision_8 = "EAST"
     if decision_8 == "EAST":
-        decision_11 = story("You arrive at another junction in the passage.\nWill you either go NORTHwards or continue WESTwards?")
+        decision_11 = story("You arrive at another junction in the passage.\nWill you either go NORTHwards or continue EASTwards?")
 
-if decision_11 == "WEST":
+if decision_11 == "EAST":
     vars.background = "door"
     story("The passage ends at a solid wooden door with metal hinges. Listening at the door,\nyou hear strange mutterings and the clatter of what could be pots and pans.")
     decision_12 = story("Whatever is in there, there are several of them.\nDo you want to go through the door?")
@@ -788,7 +787,7 @@ if decision_11 == "NORTH":
             vars.background = "darkroom"
             story("The locked door bursts open and a nauseating stench hits your nostrils.\nInside, the floor is covered with bones, rotting vegetation and slime.")
             story("A wild-haired old man, clothed in rags, rushes at you screaming.\nHis beard is long and grey, and he is waving an old wooden chair-leg.")
-            decision_12 = story("Is he as insane as he appears, or is this some kind of trap?\nWill you either SHOUT to try to calm him down or draw your sword and ATTACK.")
+            decision_12 = story("Is he as insane as he appears, or is this some kind of trap?\nWill you either SHOUT to try to calm him down or draw your sword and ATTACK?")
             if decision_12 == "SHOUT":
                 story("You shout: 'You are freed, old man!' at the top of your voice.\nInstantly, his rantings cease. He stops and sinks to the floor, weeping loudly.")
                 story("As he composes himself, he thanks you many times. You talk in the hope of\ndiscovering secrets of the mountain and he begins to tell his story.")
@@ -918,7 +917,7 @@ if decision_16 == "RIGHT":
                     elif len(vars.equipment) == 1:
                         story("You open your pack and reach inside for the " + str(vars.equipment[0]) + ".\nYou throw it across the cavern where it lands with a clatter.")
                         story("The Ogre looks towards the noise, and goes over to investigate.\nMeanwhile you creep out, down the passage and back to the junction.")
-                        vars.equipment.remove[0]
+                        vars.equipment.remove(vars.equipment[0])
                     else:
                         decision_18 = story("You open your pack and reach inside for something\nsuitable to throw. Which item will you choose to throw?")
                         while decision_18 not in vars.equipment:
@@ -930,12 +929,13 @@ if decision_16 == "RIGHT":
                 if decision_18 == "ATTACK":
                     story("You draw your sword, and as you do so\nthe Ogre hears you and prepares to attack.")
                     vars.monster = [8, 10]
-                    #escape after 2nd round
-                    if fight("Ogre"):
+                    if fight("Ogre", 2):
                         vars.equipment.append("9 key")
                         story("The slain creature crashes to the ground. You go through his garments\nand find nothing, but a small pouch hangs around his neck.")
                         story("Inside this pouch is a small bronze key, with the number 9 cast into it.\nNothing else is of value so you head back to the junction.")
                         decision_17 == "RETURN"
+                    #if vars.escape:
+
             if decision_17 == "RETURN":
                 story("You arrive back at the junction and turn westwards.")
                 decision_16 = "WEST"
