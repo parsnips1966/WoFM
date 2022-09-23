@@ -306,7 +306,7 @@ def stat_test(stat: int) -> bool:
 def autosave() -> None:
     account_data = {"gold": vars.gold, "provs": vars.provs, "hero": vars.hero, "init_hero": vars.init_hero,
 "equipment": vars.equipment, "river": vars.river, "fight_tuto_done": vars.fight_tuto_done,
-"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": profile_name}
+"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": vars.profile_name}
     save = dumps(account_data)
     if vars.profile_name != "":
         with open(vars.profile_name + ".json", "w") as save_file:

@@ -1,6 +1,5 @@
 """The main file which contains the storyline and calls all the functions."""
 
-from random import randint
 import pygame
 from pygame.locals import *
 from json import load, dumps
@@ -15,13 +14,6 @@ from cp5 import checkpoint5
 from cp6 import checkpoint6
 from cp7 import checkpoint7
 from cp8 import checkpoint8
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
-from time import sleep
-
-print("Joseph is right")
 
 if __name__ != "__main__":
     raise Exception
@@ -45,18 +37,21 @@ if decision_1 == "NEW":
 elif decision_1 == "LOAD":
     with open("profile_list.json", "r") as file:
         profile_list = load(file)
-    account = story("Which account would you like to use?", any_input=True)
+    account = story("Which account would you like to use?", any_input=True).lower()
     if account in profile_list["profiles"]:
-        with open(account + ".json", "r") as user_data:
-            variables_obj = load(user_data)
+        with open(account + ".json", "r") as file:
+            user_data = load(file)
             vars.gold = user_data["gold"]
             vars.provs = user_data["provs"]
             vars.hero = user_data["hero"]
-            vars.gold = user_data["gold"]
-            vars.gold = user_data["gold"]
-            vars.gold = user_data["gold"]
-            #########HERREEEEEEEEEEEEERBJABKAkjbaK!!!!!!!!!!!!!!!
-
+            vars.init_hero = user_data["init_hero"]
+            vars.equipment = user_data["equipment"]
+            vars.river = user_data["river"]
+            vars.fight_tuto_done = user_data["fight_tuto_done"]
+            vars.provs_tuto_done = user_data["provs_tuto_done"]
+            vars.checkpoint = user_data["checkpoint"]
+            vars.profile_name = user_data["profile_name"]
+            
 print(vars.checkpoint)
 
 if vars.checkpoint == 0:
@@ -74,19 +69,15 @@ if vars.checkpoint == 3:
 if vars.checkpoint == 4:
     checkpoint4()
 
-vars.checkpoint = 5
 if vars.checkpoint == 5:
     checkpoint5()
 
-vars.checkpoint = 6
 if vars.checkpoint == 6:
     checkpoint6()
 
-vars.checkpoint = 7
 if vars.checkpoint == 7:
     checkpoint7()
 
-vars.checkpoint = 8
 if vars.checkpoint == 8:
     checkpoint8()
 
@@ -102,3 +93,4 @@ pygame.quit()
 #line 243, in change_stats
 #    if vars.hero[stat] + amount > vars.init_hero[stat]:
 #TypeError: '>' not supported between instances of 'int' and 'list'
+#save decision variables

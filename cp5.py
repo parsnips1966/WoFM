@@ -1,9 +1,5 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
 
 def checkpoint5():
     if vars.decision_11 == "EAST":
