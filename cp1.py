@@ -6,6 +6,7 @@ from rp3 import repeat3
 from rp4 import repeat4
 
 def checkpoint1():
+    vars.background = "passage"
     vars.decision_1 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
     if vars.decision_1 == "EAST":
         vars.background = "door"

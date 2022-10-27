@@ -70,7 +70,7 @@ def checkpoint7():
                         story("You draw your sword, and as you do so\nthe Ogre hears you and prepares to attack.")
                         vars.monster = [8, 10]
                         if fight("Ogre", 2):
-                            vars.equipment.append("9 key")
+                            vars.equipment.append("9 Key")
                             story("The slain creature crashes to the ground. You go through his garments\nand find nothing, but a small pouch hangs around his neck.")
                             story("Inside this pouch is a small bronze key, with the number 9 cast into it.\nNothing else is of value so you head back to the junction.")
                             vars.decision_17 == "RETURN"
@@ -84,7 +84,7 @@ def checkpoint7():
                 vars.decision_16 = story("Will you continue NORTHwards or take the WEST way?")
                 if vars.decision_16 == "NORTH":
                     story("Several metres up the passageway you arrive at a\njunction where you may turn either west or east.")
-                    repeat_1()
+                    repeat1()
                     vars.decision_16 = "NO"
                 elif vars.decision_16 == "WEST":
                     story("As you walk along the corridor, you see that it's getting narrower.\nAt one point you stoop, and as you do so, a deep, resonating laugh starts up.")
@@ -96,7 +96,7 @@ def checkpoint7():
                     if vars.decision_16 == "NO":
                         story("You arrive back at the junction and turn northwards. Several metres up\nyou arrive at a junction where you may turn either west or east.")
                 if vars.decision_16 == "NO":
-                    repeat_1()
+                    repeat1()
         elif vars.decision_16 == "EAST":
             story("Cautiously you creep along the passageway.\nAfter a short time it turns sharply to the north.")
             story("At the corner there's a bench of solid wood\nand a sign reads 'Rest Ye Here Weary Traveller'.")
@@ -104,6 +104,8 @@ def checkpoint7():
             if vars.decision_16 == "YES":
                 take_provs()
                 story("As you sit on the bench and eat, you begin to feel deeply relaxed and the\naches from your body seem to sooth themselves away. This place is enchanted")
+                change_stats(1, 2)
+                change_stats(0, 1)
                 story("You restore 2 additional Stamina as well\nas the normal amount and 1 Skill point.")
                 vars.decision_16 = "NO"
             if vars.decision_16 == "NO":
@@ -197,7 +199,7 @@ def checkpoint7():
                                 story("They are mouthing silent screams as if trapped in a two-dimensional hell.")
                                 vars.decision_16 = story("On the wall opposite is another door.\nWill you LEAVE through it or STAY to investigate?")
                                 if vars.decision_16 == "LEAVE":
-                                    repeat_2()
+                                    repeat2()
                                 elif vars.decision_16 == "STAY":
                                     story("As you watch the living mural, you are unaware of the speed\nyour candle is burning. Suddenly it flickers and goes out!")
                                     story("You again begin to hear the piercing screams\nand their pitch grows to an unbearable level.")
@@ -214,11 +216,11 @@ def checkpoint7():
                                     vars.decision_16 = story("Will you either try the EAST wall or the NORTH wall?")
                                 if vars.decision_16 == "NORTH":
                                     story("You grope around the length of the wall and find a door.\nQuickly you fumble with the handle. It opens!")
-                                    repeat_2()
+                                    repeat2()
                 elif vars.decision_16 == "EAST":
                     vars.decision_16 = story("After a few metres you reach another three-way junction.\nWill you go either NORTHwards or EASTwards?")
                     if vars.decision_16 == "NORTH":
-                        repeat_3()
+                        repeat3()
                     elif vars.decision_16 == "EAST":
                         vars.decision_16 = story("The passageway ends in a sturdy wooden door. Do you\nwant to try OPENing it or go back and try another ROUTE?")
                         if vars.decision_16 == "OPEN":
@@ -252,5 +254,5 @@ def checkpoint7():
                                 vars.decision_16 = "ROUTE"
                         if vars.decision_16 == "ROUTE":
                             story("You arrive back at the junction and this time you turn northwards.")
-                            repeat_3()
+                            repeat3()
     vars.checkpoint = 8

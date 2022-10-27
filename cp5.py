@@ -45,7 +45,7 @@ def checkpoint5():
                                         if vars.decision_13 == "YES":
                                             take_provs()
                                         change_stats(2, 1)
-                                        vars.equipment.append("Bow and arrow")
+                                        vars.equipment.append("Bow And Arrow")
                                         story("You put the bow, arrow and case in your pack and leave the room.")
                                         vars.decision_12 = "NO"
                                     elif vars.decision_13 == "NO":

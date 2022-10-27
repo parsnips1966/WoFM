@@ -24,23 +24,22 @@ surf = pygame.image.load("./images/" + vars.background + ".jpg").convert()
 consts.screen.blit(surf, surf.get_rect())
 decision_1 = story("Welcome to The Warlock of Firetop Mountain.\nWould you like to create a NEW account or LOAD an existing one?")
 if decision_1 == "NEW":
-    vars.profile_name = story("What would you like to call it?", any_input=True).lower()
-    with open("profile_list.json", "r") as file:
-        profile_list = load(file)
-    if vars.profile_name not in profile_list["profiles"]:
-        profile_list["profiles"].append(vars.profile_name)
-        save = dumps(profile_list)
-        with open("profile_list.json", "w") as file: 
-            file.write(save)
-    else:
-        story("That account already exists. Go and cry in a hole.")
+    while True:
+        vars.profile_name = story("What would you like to call it?", any_input=True).lower()
+        with open("profile_list.json", "r") as file:
+            profile_list = load(file)
+        if vars.profile_name in profile_list:
+            story("That account already exists.")
+        else:
+            break
 elif decision_1 == "LOAD":
     with open("profile_list.json", "r") as file:
         profile_list = load(file)
-    account = story("Which account would you like to use?", any_input=True).lower()
-    if account in profile_list["profiles"]:
-        with open(account + ".json", "r") as file:
-            user_data = load(file)
+    while True:
+        account = story("Which account would you like to use?", any_input=True).lower()
+        if account in profile_list["profiles"]:
+            with open(account + ".json", "r") as file:
+                user_data = load(file)
             vars.gold = user_data["gold"]
             vars.provs = user_data["provs"]
             vars.hero = user_data["hero"]
@@ -51,6 +50,9 @@ elif decision_1 == "LOAD":
             vars.provs_tuto_done = user_data["provs_tuto_done"]
             vars.checkpoint = user_data["checkpoint"]
             vars.profile_name = user_data["profile_name"]
+            break
+        else:
+            story("That account doesn't exist.")
             
 print(vars.checkpoint)
 

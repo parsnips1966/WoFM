@@ -33,7 +33,7 @@ def checkpoint4():
                         story("Unless you use it for which it was intended,\nyou shall be consumed by evil itself\nand die by the fire from your own hands.")
                         story("Remember, only when the Dragon breathes fire at you\nshould you raise your arms and say:\nEkil Erif, Ekam Erif, Erif Erif, Di Maggio.")
                         story("You say these words slowly and softly. Suddenly the pages seem to glow\nand as this glow disappears, so do the words on the pages of the book.")
-                        vars.equipment.append("Dragonfire spell")
+                        vars.equipment.append("Dragonfire Spell")
                         story("You repeat the spell to yourself to memorise it and leave the room.")
                         vars.decision_7 = "NO"
                     elif vars.decision_8 == "LEAVE":

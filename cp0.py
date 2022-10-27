@@ -27,5 +27,4 @@ def checkpoint0():
     story("Your Skill, Stamina and Luck scores will change throughout the game\nbut rarely exceed these initial values.")
     vars.background = "archinside"
     story("You may now enter the mountain...")
-    vars.background = "passage"
     vars.checkpoint = 1

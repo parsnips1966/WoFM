@@ -38,6 +38,7 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
     Allows the player to click to move on and to type if the game asks a question.
     :param txt: The main text which appears in the centre of the screen.
     """
+    autosave()
     output = ""
     #cursor_flash = 0
     txt = txt.split("\n")
@@ -63,11 +64,11 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
     blit_text("Equipment: " + str(equip_str), 10, 665, outline = True)
     if vars.fighting:
         if len(vars.monster_name) < 6:
-            blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
-        elif len(vars.monster_name) < 10:
+            blit_text(vars.monster_name, 1230, 10, underline = True, colour = consts.RED, outline = True)
+        elif len(vars.monster_name) < 11:
             blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
         else:
-            blit_text(vars.monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
+            blit_text(vars.monster_name, 1150, 10, underline = True, colour = consts.RED, outline = True)
         blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
         blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
     if vars.dice_num != 0:
@@ -78,7 +79,7 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
                 num = randint(1, 6)
             num = randint(6, vars.dice_num)
             draw_dice(num, 575)
-            draw_dice(dice_num - num, 725)
+            draw_dice(vars.dice_num - num, 725)
         vars.dice_num = 0
     if vars.dice_num2 != 0:
         if vars.dice_num2 < 7:
@@ -99,7 +100,6 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
         #    pygame.draw.rect(consts.screen, consts.WHITE, Rect(652 + 7 * len(output), 520, 3, 40))
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                autosave()
                 pygame.quit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.display.flip()
@@ -129,10 +129,10 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
                         if vars.fighting:
                             if len(vars.monster_name) < 6:
                                 blit_text(vars.monster_name, 1250, 10, underline = True, colour = consts.RED, outline = True)
-                            elif len(vars.monster_name) < 10:
+                            elif len(vars.monster_name) < 11:
                                 blit_text(vars.monster_name, 1200, 10, underline = True, colour = consts.RED, outline = True)
                             else:
-                                blit_text(monster_name, 1130, 10, underline = True, colour = consts.RED, outline = True)
+                                blit_text(vars.monster_name, 1150, 10, underline = True, colour = consts.RED, outline = True)
                             blit_text("Skill: " + str(vars.monster[0]), 1220, 35, colour = consts.RED, outline = True)
                             blit_text("Stamina: " + str(vars.monster[1]), 1174, 60, colour = consts.RED, outline = True)
                         if vars.dice_num != 0:
@@ -162,11 +162,14 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
                 if event.key == pygame.K_BACKSPACE:
                     if len(output) > 0:
                         output = output[: -1]
-                elif event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
-                    output += chr(event.key).upper()
-                    pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
-                    pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
-                blit_text(output, 645 - 12 * len(output), 528, 40, colour = consts.BLUE, outline = True)
+                        pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
+                        pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
+                elif event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                    if len(output) < 20: 
+                        output += chr(event.key).upper()
+                        pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
+                        pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
+                blit_text(output, 645 - 9 * len(output), 528, 40, colour = consts.BLUE, outline = True)
             pygame.display.flip()
         if timer > 0:
             sleep(timer)
@@ -247,8 +250,8 @@ def change_stats(stat: int, amount: int, operation: str="") -> None:
         vars.hero[stat] -= amount
         return
     num = vars.hero[stat] + amount
-    if num > init_vars.hero[stat]:
-        vars.hero[stat] = init_vars.hero[stat]
+    if num > vars.init_hero[stat]:
+        vars.hero[stat] = vars.init_vars.hero[stat]
         return
     vars.hero[stat] += amount
 
@@ -266,7 +269,6 @@ def fight(name: str, escape_round: int=99) -> bool:
             if vars.monster[1] > 0:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        autosave()
                         pygame.quit()
                         return False
                 vars.hero_attack = randint(2, 12) + vars.hero[0]
@@ -306,11 +308,23 @@ def stat_test(stat: int) -> bool:
 def autosave() -> None:
     account_data = {"gold": vars.gold, "provs": vars.provs, "hero": vars.hero, "init_hero": vars.init_hero,
 "equipment": vars.equipment, "river": vars.river, "fight_tuto_done": vars.fight_tuto_done,
-"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": vars.profile_name}
+"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": vars.profile_name, "decision_1": vars.decision_1,
+"decision_2": vars.decision_2, "decision_3": vars.decision_3, "decision_4": vars.decision_4, "decision_5": vars.decision_5,
+"decision_6": vars.decision_6, "decision_7": vars.decision_7, "decision_8": vars.decision_8, "decision_9": vars.decision_9, 
+"decision_10": vars.decision_10, "decision_11": vars.decision_11, "decision_12": vars.decision_12, "decision_13": vars.decision_13, 
+"decision_14": vars.decision_14, "decision_15": vars.decision_15, "decision_16": vars.decision_16, "decision_17": vars.decision_17, 
+"decision_18": vars.decision_18, "decision_19": vars.decision_19}
     save = dumps(account_data)
     if vars.profile_name != "":
         with open(vars.profile_name + ".json", "w") as save_file:
             save_file.write(save)
+    with open("profile_list.json", "r") as file:
+        profile_list = load(file)
+    if vars.profile_name not in profile_list["profiles"]:
+        profile_list["profiles"].append(vars.profile_name)
+    save = dumps(profile_list)
+    with open("profile_list.json", "w") as file: 
+        file.write(save)
 
 '''
 """Contains all the variables used including the user's items and stats and variables which control whether sections of the program run."""
@@ -325,6 +339,25 @@ fight_tuto_done = {vars.fight_tuto_done}
 provs_tuto_done = {vars.provs_tuto_done}
 checkpoint = {vars.checkpoint}
 profile_name = {vars.profile_name}
+decision_1 = {vars.decision_1}
+decision_2 = {vars.decision_2}
+decision_3 = {vars.decision_3}
+decision_4 = {vars.decision_4}
+decision_5 = {vars.decision_5}
+decision_6 = {vars.decision_6}
+decision_7 = {vars.decision_7}
+decision_8 = {vars.decision_8}
+decision_9 = {vars.decision_9}
+decision_10 = {vars.decision_10}
+decision_11 = {vars.decision_11}
+decision_12 = {vars.decision_12}
+decision_13 = {vars.decision_13}
+decision_14 = {vars.decision_14}
+decision_15 = {vars.decision_15}
+decision_16 = {vars.decision_16}
+decision_17 = {vars.decision_17}
+decision_18 = {vars.decision_18}
+decision_19 = {vars.decision_19}
 '''
 
 if __name__ == "__main__":
