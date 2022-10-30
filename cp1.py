@@ -7,11 +7,11 @@ from rp4 import repeat4
 
 def checkpoint1():
     vars.background = "passage"
-    vars.decision_1 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
-    if vars.decision_1 == "EAST":
+    vars.decision_2 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
+    if vars.decision_2 == "EAST":
         vars.background = "door"
-        vars.decision_2 = story("The passageway soon comes to an end at a locked wooden door.\nYou listen at the door but hear nothing. Will you try to charge it down?")
-        if vars.decision_2 == "YES":
+        vars.decision_3 = story("The passageway soon comes to an end at a locked wooden door.\nYou listen at the door but hear nothing. Will you try to charge it down?")
+        if vars.decision_3 == "YES":
             story("You charge the door with your shoulder. Test your Skill by rolling two dice\nto see if it's less than or equal to your Skill score.")
             if stat_test(0):
                 vars.background = "pit"
@@ -24,14 +24,13 @@ def checkpoint1():
             else:
                 story("You rub your bruised shoulder and decide against\ntrying again. You turn around and head back to the junction.")
                 vars.background = "passage"
-        elif vars.decision_2 == "NO":
+        elif vars.decision_3 == "NO":
             vars.background = "passage"
             story("You turn around and head back to the junction.")
         vars.background = "archtooutside"
         story("You arrive back at the junction. You look left to see the\ncave entrance in the dim distance but walk straight on.")
         vars.decision_1 = "WEST"
-
-    if vars.decision_1 == "WEST":
+    if vars.decision_2 == "WEST":
         vars.background = "passage"
         story("There's a right-hand turn to the north. Cautiously you approach a sentry post\non the corner and see a strange goblin-like creature wearing leather armour.")
         vars.background = "sleepingorc"
@@ -49,5 +48,5 @@ def checkpoint1():
             if fight("Orc"):
                 vars.background = "door"
                 story("On your left, the west face of the passage,\nthere is a rough-cut wooden door.")
-        vars.decision_3 = story("You listen at the door and can hear a rasping sound which\nmay be some kind of creature snoring. Do you want to open the door?")
+        vars.decision_4 = story("You listen at the door and can hear a rasping sound which\nmay be some kind of creature snoring. Do you want to open the door?")
     vars.checkpoint = 2
