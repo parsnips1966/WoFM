@@ -50,11 +50,29 @@ elif decision_1 == "LOAD":
             vars.provs_tuto_done = user_data["provs_tuto_done"]
             vars.checkpoint = user_data["checkpoint"]
             vars.profile_name = user_data["profile_name"]
+            vars.decision_1 = user_data["decision_1"]
+            vars.decision_2 = user_data["decision_2"]
+            vars.decision_3 = user_data["decision_3"]
+            vars.decision_4 = user_data["decision_4"]
+            vars.decision_5 = user_data["decision_5"]
+            vars.decision_6 = user_data["decision_6"]
+            vars.decision_7 = user_data["decision_7"]
+            vars.decision_8 = user_data["decision_8"]
+            vars.decision_9 = user_data["decision_9"]
+            vars.decision_10 = user_data["decision_10"]
+            vars.decision_11 = user_data["decision_11"]
+            vars.decision_12 = user_data["decision_12"]
+            vars.decision_13 = user_data["decision_13"]
+            vars.decision_14 = user_data["decision_14"]
+            vars.decision_15 = user_data["decision_15"]
+            vars.decision_16 = user_data["decision_16"]
+            vars.decision_17 = user_data["decision_17"]
+            vars.decision_18 = user_data["decision_18"]
+            vars.decision_19 = user_data["decision_19"]
             break
         else:
             story("That account doesn't exist.")
             
-print(vars.checkpoint)
 
 if vars.checkpoint == 0:
     checkpoint0()
@@ -91,8 +109,5 @@ pygame.quit()
 #add more images
 #I've a feeling I'm missing a bit maybe with a vampire
 #fix dice
-
-#line 243, in change_stats
-#    if vars.hero[stat] + amount > vars.init_hero[stat]:
-#TypeError: '>' not supported between instances of 'int' and 'list'
-#save decision variables
+#have different decision variables for every choice
+#set background at beginnning of checkpoints

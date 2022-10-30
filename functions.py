@@ -38,6 +38,7 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
     Allows the player to click to move on and to type if the game asks a question.
     :param txt: The main text which appears in the centre of the screen.
     """
+    enter_key_pressed()
     autosave()
     output = ""
     #cursor_flash = 0
@@ -164,7 +165,7 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
                         output = output[: -1]
                         pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
                         pygame.draw.rect(consts.screen, consts.WHITE, Rect(450, 510, 400, 60))
-                elif event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE or event.key == pygame.K_RETURN:
+                elif event.key in range(97, 123) or event.key in range(48, 58) or event.key == pygame.K_SPACE:
                     if len(output) < 20: 
                         output += chr(event.key).upper()
                         pygame.draw.rect(consts.screen, consts.BLACK, Rect(449, 509, 402, 62), 4)
@@ -251,7 +252,7 @@ def change_stats(stat: int, amount: int, operation: str="") -> None:
         return
     num = vars.hero[stat] + amount
     if num > vars.init_hero[stat]:
-        vars.hero[stat] = vars.init_vars.hero[stat]
+        vars.hero[stat] = vars.init_hero[stat]
         return
     vars.hero[stat] += amount
 
@@ -287,6 +288,8 @@ def fight(name: str, escape_round: int=99) -> bool:
                 elif vars.hero_attack < monster_attack:
                     change_stats(1, 2, "subtract")
                     story("The " + name + " lands a blow.", 1, vars.escape)
+                else:
+                    story("You avoid each other's blows.")
                 round += 1
             else:
                 story("The " + name + " is dead.", 1, vars.escape)
@@ -359,6 +362,13 @@ decision_17 = {vars.decision_17}
 decision_18 = {vars.decision_18}
 decision_19 = {vars.decision_19}
 '''
+
+def enter_key_pressed():
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RETURN:
+                print("enter pressed")
+                return True
 
 if __name__ == "__main__":
     raise Exception

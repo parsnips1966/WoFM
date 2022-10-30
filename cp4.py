@@ -84,7 +84,7 @@ def checkpoint4():
                                 story("But as you are admiring this treasure you hear a soft click and\nwince in pain as a small dart shoots forward into your stomach.")
                                 story("Roll a die to determine the effect of the poison on the dart tip.")
                                 dice_num = randint(1, 6)
-                                change_stats(1, dice_num)
+                                change_stats(1, dice_num, "subtract")
                                 if vars.hero[1] > 0:
                                     story("You sink to the floor. You pull the dart out and decide to bandage the wound.\nThis gives some relief, but you still feel weak.")
                                     story("You decide to take it easy and examine the contents of the chest.")

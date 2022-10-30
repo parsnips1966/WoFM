@@ -1,3 +1,6 @@
+from functions import *
+import variables as vars
+
 def repeat3():
     story("The passage ahead ends at a sturdy door. You listen but hear nothing.\nYou try the handle, it turns, and you enter the room.")
     story("As you look around you hear a loud cry from behind you and swing round\nto see a wild man leaping towards you wielding a large battle axe.")

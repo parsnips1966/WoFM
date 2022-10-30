@@ -1,3 +1,6 @@
+from functions import *
+import variables as vars
+
 def repeat2():
     story("You enter another small room, bare except for a fountain in the middle.")
     story("Not a particularly grand affair, the fountain is a small carved fish,\nand a short jet of water comes from its mouth.")

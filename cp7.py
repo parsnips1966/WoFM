@@ -21,7 +21,6 @@ def checkpoint7():
             story("Your roll is even so you used your non-sword hand,\nand the injury is not quite so important.")
         story("You now pull the right lever.")
         vars.decision_16 = "RIGHT"
-
     if vars.decision_16 == "RIGHT":
         story("You hear a deep rumbling noise and the ground begins to shudder.\nSlowly and noisily the portcullis rises into the celing.")
         vars.decision_16 = story("You may now walk to the junction.\nWill you turn WEST or EAST?")

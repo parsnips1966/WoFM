@@ -1,3 +1,7 @@
+from functions import *
+import variables as vars
+from rp4 import repeat4
+
 def repeat1():
     vars.decision_16 = story("Set in the north wall is a small recess where you may eat\nProvisions without being seen. Do you wish to take Provisions?")
     if vars.decision_16 == "YES":
@@ -96,7 +100,7 @@ def repeat1():
                                     change_stats(1, 4)
                                     story("Panting after the struggle, you sit down to collect\nyourself and finish the Provisions you started.")
                                 vars.escape = False
-                                repeat_4()
+                                repeat4()
         else:
             story("You manage to leap quickly backwards before a pit opens.\nYou had better return to the junction.")
             vars.decision_17 = "EAST"
@@ -121,26 +125,31 @@ def repeat1():
                         #sus if you put attack
                         if vars.decision_18 == "ACCEPT":
                             while vars.decision_19 != "LEAVE":
-                                while vars.decision_19 < 1 or vars.decision_19 > vars.gold:
-                                    vars.decision_19 = story("The old asks you your stake. How much will you bet?")
-                                    if not vars.decision_19.isdigit():
-                                        story("Choose a number.")
+                                vars.decision_19 = story("The old asks you your stake. How many gold pieces will you bet?", any_input=True)
+                                while not vars.decision_19.isdigit():
+                                    story("Choose a number.")
+                                    vars.decision_19 = story("The old asks you your stake. How many gold pieces will you bet?", any_input=True)
+                                while int(vars.decision_19) < 1 or int(vars.decision_19) > vars.gold:
                                     story("Bet between 1 and the number of Gold Pieces you have.")
+                                    vars.decision_19 = story("The old asks you your stake. How many gold pieces will you bet?", any_input=True)
                                 story("He tosses the white dice he has been\nplaying with to you and asks you to roll.")
-                                vars.dice_num = randint(2, 12)
+                                vars.dice_roll = randint(2, 12)
                                 vars.dice_roll2 = randint(2, 12)
                                 story("You roll the dice")
-                                if vars.dice_num > vars.dice_roll2:
+                                if vars.dice_roll > vars.dice_roll2:
                                     story("The old man rolls " + str(vars.dice_roll2) + " so you win your stake.")
-                                    win = True
-                                elif vars.dice_num < vars.dice_roll2:
+                                    vars.gold += int(vars.decision_19)
+                                    vars.win = True
+                                elif vars.dice_roll < vars.dice_roll2:
                                     story("The old man rolls " + str(vars.dice_roll2) + " so you lose your stake.")
+                                    vars.gold -= int(vars.decision_19)
                                 if vars.gold == 0:
+                                    vars.decision_18 = "LEAVE"
                                     story("You have no Gold Pieces left so you must leave\nthrough the door and return to the junction.")
                                     break
                                 vars.decision_20 = story("Will you CONTINUE betting or LEAVE\nthrough the door and return to the junction?")
                                 if vars.decision_20 == "LEAVE":
-                                    if win:
+                                    if vars.win:
                                         change_stats(0, 2)
                                         change_stats(1, 2)
                                         change_stats(2, 2)
@@ -200,12 +209,12 @@ def repeat1():
                     vars.decision_17 = "STARS"
             if vars.decision_17 == "STARS":
                 story("The passageway ahead runs northwards and you\nfollow this until you reach another junction.")
-                vars.decision_17 = story("Here will you either continue NORTHwards or you may turn WESTwards")
+                vars.decision_17 = story("Here will you either continue NORTHwards or you may turn WESTwards?")
                 if vars.decision_17 == "NORTH":
                     story("The passageway ends in a solid doorway and you are surprised to see\na leather skirt tacked along the bottom of the door")
                     vars.decision_17 = story("You listen but hear nothing. Will you\nENTER the room or RETURN to the junction?")
                     if vars.decision_17 == "ENTER":
-                        story("You enter a small room with bare, rocky walls. On the far wall hangs a golden key. There seems to be no way through the room.")
+                        story("You enter a small room with bare, rocky walls. On the far wall\nhangs a golden key. There seems to be no way through the room.")
                         vars.decision_18 = story("Do you want to go for the KEY or LEAVE it\nand return to the junction?")
                         if vars.decision_18 == "KEY":
                             story("As you step into the room, the door swings shut behind you\nAs it closes, there is a click and a hiss.")
@@ -234,16 +243,18 @@ def repeat1():
                 if vars.decision_17 == "WEST":
                     story("Some way along the passage, the corridor bends round to the north\nand you follow it until you reach another junction.")                
                     story("At this junction you see an arrow cut into the rock,\npointing to the north, and you decide to try this direction.")
-                    story("The passage runs northwards, and ahead you can har the splashings\nof an underground river. The air becomes cool and fresh.")
+                    story("The passage runs northwards, and ahead you can hear the splashings\nof an underground river. The air becomes cool and fresh.")
                     story("You soon reach a wide opening of a river bank but despair as\nyou look across to see no way through on the other side.")
                     story("To the east the river flows through a cave in the rock.")
                     vars.decision_17 = story("Will you either REST, and eat Provisions or go what seems the only\nway forward, jumping into the river and SWIMming downstream?")
                     if vars.decision_17 == "REST":
-                        story("You squat on the sandy bank. As you prepare your meal you notice\ba movement in the sand a couple of metres to your left.")
+                        story("You squat on the sandy bank. As you prepare your meal you notice\na movement in the sand a couple of metres to your left.")
                         story("The movement becomes quite turbulent and\nyou spring to your feet, sword at the ready.")
                         story("Suddenly a large tubular head breaks through the surface,\ntwists around in the air and picks up your scent.")
                         story("The smooth, segmented body of a Giant Sandworm\nrears up and sways over in your direction.")
                         story("As it does so, a large orifice, with short spiky teeth, opens in\nwhat must be its head. You must do battle with this creature.")
+                        vars.monster = [7, 7]
+                        #escape after 3
                         if fight("Giant Sandworm"):
                             take_provs()
                             story("Panting after the struggle, you sit down to collect\nyourself and finish the Provisions you started.")
@@ -253,4 +264,4 @@ def repeat1():
                             vars.escape = False
                         vars.decision_17 = "SWIM"
                     if vars.decision_17 == "SWIM":
-                        repeat_4()
+                        repeat4()
