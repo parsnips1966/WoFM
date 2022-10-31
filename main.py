@@ -109,5 +109,5 @@ pygame.quit()
 #add more images
 #I've a feeling I'm missing a bit maybe with a vampire
 #fix dice
-#got to end of cp7 with different decisions
+#got to end of rp1 with different decisions
 #set background at beginnning of checkpoints
