@@ -1,11 +1,6 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
-
-def checkpoint1():
+def checkpoint_1():
     vars.background = "passage"
     vars.decision_2 = story("You enter the caverns of Firetop Mountain and within a few metres\nyou arrive at a junction, do you want to go EAST or WEST?")
     if vars.decision_2 == "EAST":

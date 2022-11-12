@@ -1,11 +1,7 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
 
-def checkpoint2():
+def checkpoint_2():
     if vars.decision_4 == "YES":
         vars.background = "darkroom"
         story("The door opens to reveal a small, smelly room. In the centre is a rickety\nwooden table on which stands a lit candle. Underneath is small wooden box.")

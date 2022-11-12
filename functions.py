@@ -38,7 +38,6 @@ def story(txt: str, timer: int=0, escape: bool=False, any_input: bool=False) -> 
     Allows the player to click to move on and to type if the game asks a question.
     :param txt: The main text which appears in the centre of the screen.
     """
-    enter_key_pressed()
     autosave()
     output = ""
     #cursor_flash = 0
@@ -289,7 +288,7 @@ def fight(name: str, escape_round: int=99) -> bool:
                     change_stats(1, 2, "subtract")
                     story("The " + name + " lands a blow.", 1, vars.escape)
                 else:
-                    story("You avoid each other's blows.")
+                    story("You avoid each other's blows.", 1, vars.escape)
                 round += 1
             else:
                 story("The " + name + " is dead.", 1, vars.escape)
@@ -310,13 +309,29 @@ def stat_test(stat: int) -> bool:
 
 def autosave() -> None:
     account_data = {"gold": vars.gold, "provs": vars.provs, "hero": vars.hero, "init_hero": vars.init_hero,
-"equipment": vars.equipment, "river": vars.river, "fight_tuto_done": vars.fight_tuto_done,
-"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": vars.profile_name, "decision_1": vars.decision_1,
-"decision_2": vars.decision_2, "decision_3": vars.decision_3, "decision_4": vars.decision_4, "decision_5": vars.decision_5,
-"decision_6": vars.decision_6, "decision_7": vars.decision_7, "decision_8": vars.decision_8, "decision_9": vars.decision_9, 
-"decision_10": vars.decision_10, "decision_11": vars.decision_11, "decision_12": vars.decision_12, "decision_13": vars.decision_13, 
-"decision_14": vars.decision_14, "decision_15": vars.decision_15, "decision_16": vars.decision_16, "decision_17": vars.decision_17, 
-"decision_18": vars.decision_18, "decision_19": vars.decision_19}
+"equipment": vars.equipment, "fight_tuto_done": vars.fight_tuto_done,
+"provs_tuto_done": vars.provs_tuto_done, "checkpoint": vars.checkpoint, "profile_name": vars.profile_name,
+"decision_1": vars.decision_1, "decision_2": vars.decision_2, "decision_3": vars.decision_3, "decision_4": vars.decision_4, "decision_5": vars.decision_5,
+"decision_6": vars.decision_6, "decision_7": vars.decision_7, "decision_8": vars.decision_8, "decision_9": vars.decision_9,  "decision_10": vars.decision_10,
+"decision_11": vars.decision_11, "decision_12": vars.decision_12, "decision_13": vars.decision_13, "decision_14": vars.decision_14, "decision_15": vars.decision_15,
+"decision_16": vars.decision_16, "decision_17": vars.decision_17, "decision_18": vars.decision_18, "decision_19": vars.decision_19, "decision_20": vars.decision_20,
+"decision_21": vars.decision_21, "decision_22": vars.decision_22, "decision_23": vars.decision_23, "decision_24": vars.decision_24, "decision_25": vars.decision_25,
+"decision_26": vars.decision_26, "decision_27": vars.decision_27, "decision_28": vars.decision_28, "decision_29": vars.decision_29, "decision_30": vars.decision_30,
+"decision_31": vars.decision_31, "decision_32": vars.decision_32, "decision_33": vars.decision_33, "decision_34": vars.decision_34, "decision_35": vars.decision_35,
+"decision_36": vars.decision_36, "decision_37": vars.decision_37, "decision_38": vars.decision_38, "decision_39": vars.decision_39, "decision_40": vars.decision_40,
+"decision_41": vars.decision_41, "decision_42": vars.decision_42, "decision_43": vars.decision_43, "decision_44": vars.decision_44, "decision_45": vars.decision_45,
+"decision_46": vars.decision_46, "decision_47": vars.decision_47, "decision_48": vars.decision_48, "decision_49": vars.decision_49, "decision_50": vars.decision_50,
+"decision_51": vars.decision_51, "decision_52": vars.decision_52, "decision_53": vars.decision_53, "decision_54": vars.decision_54, "decision_55": vars.decision_55,
+"decision_56": vars.decision_56, "decision_57": vars.decision_57, "decision_58": vars.decision_58, "decision_59": vars.decision_59, "decision_60": vars.decision_60,
+"decision_61": vars.decision_61, "decision_62": vars.decision_62, "decision_63": vars.decision_63, "decision_64": vars.decision_64, "decision_65": vars.decision_65,
+"decision_66": vars.decision_66, "decision_67": vars.decision_67, "decision_68": vars.decision_68, "decision_69": vars.decision_69, "decision_70": vars.decision_70,
+"decision_71": vars.decision_71, "decision_72": vars.decision_72, "decision_73": vars.decision_73, "decision_74": vars.decision_74, "decision_75": vars.decision_75,
+"decision_76": vars.decision_76, "decision_77": vars.decision_77, "decision_78": vars.decision_78, "decision_79": vars.decision_79, "decision_80": vars.decision_80,
+"decision_81": vars.decision_81, "decision_82": vars.decision_82, "decision_83": vars.decision_83, "decision_84": vars.decision_84, "decision_85": vars.decision_85,
+"decision_86": vars.decision_86, "decision_87": vars.decision_87, "decision_88": vars.decision_88, "decision_89": vars.decision_89, "decision_90": vars.decision_90,
+"decision_91": vars.decision_91, "decision_92": vars.decision_92, "decision_93": vars.decision_93, "decision_94": vars.decision_94, "decision_95": vars.decision_95,
+"decision_96": vars.decision_96, "decision_97": vars.decision_97, "decision_98": vars.decision_98, "decision_99": vars.decision_99
+}
     save = dumps(account_data)
     if vars.profile_name != "":
         with open(vars.profile_name + ".json", "w") as save_file:
@@ -328,40 +343,6 @@ def autosave() -> None:
     save = dumps(profile_list)
     with open("profile_list.json", "w") as file: 
         file.write(save)
-
-'''
-"""Contains all the variables used including the user's items and stats and variables which control whether sections of the program run."""
-
-gold = {vars.gold}
-provs = {vars.provs}
-hero = {vars.hero}
-init_hero = {vars.init_hero}
-equipment = {vars.equipment}
-river = {vars.river}
-fight_tuto_done = {vars.fight_tuto_done}
-provs_tuto_done = {vars.provs_tuto_done}
-checkpoint = {vars.checkpoint}
-profile_name = {vars.profile_name}
-decision_1 = {vars.decision_1}
-decision_2 = {vars.decision_2}
-decision_3 = {vars.decision_3}
-decision_4 = {vars.decision_4}
-decision_5 = {vars.decision_5}
-decision_6 = {vars.decision_6}
-decision_7 = {vars.decision_7}
-decision_8 = {vars.decision_8}
-decision_9 = {vars.decision_9}
-decision_10 = {vars.decision_10}
-decision_11 = {vars.decision_11}
-decision_12 = {vars.decision_12}
-decision_13 = {vars.decision_13}
-decision_14 = {vars.decision_14}
-decision_15 = {vars.decision_15}
-decision_16 = {vars.decision_16}
-decision_17 = {vars.decision_17}
-decision_18 = {vars.decision_18}
-decision_19 = {vars.decision_19}
-'''
 
 def enter_key_pressed():
     for event in pygame.event.get():

@@ -1,11 +1,7 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
 
-def checkpoint0():
+def checkpoint_0():
     story("Welcome to Firetop Mountain.")
     story("You have in your possession a sword and a shield\ntogether with a rucksack containing Provisions for the trip.")
     story("You have been preparing for this quest but to see how successful you have been\nyou must use the dice to determine your initial Skill, Stamina and Luck scores.")

@@ -1,11 +1,7 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
-from rp4 import repeat4
 
-def checkpoint6():
+def checkpoint_6():
     if vars.decision_23 == "YES":
         vars.decision_24 = story("The door is firmly locked. You may try to force it open, will you?")
         if vars.decision_24 == "YES":

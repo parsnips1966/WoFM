@@ -1,10 +1,7 @@
 from functions import *
 import variables as vars
-from rp1 import repeat1
-from rp2 import repeat2
-from rp3 import repeat3
 
-def checkpoint7():
+def checkpoint_7():
     if vars.decision_28 == "LEFT":
         story("To your horror, you realise that\nthis dummy lever was a trap!")
         story("Although it looked like a handle, it was in fact a wax-coated sword blade and\nit has now cut your hand badly. Did you use your right or left hand.")
@@ -82,8 +79,7 @@ def checkpoint7():
                 vars.decision_34 = story("Will you continue NORTHwards or take the WEST way?")
                 if vars.decision_34 == "NORTH":
                     story("Several metres up the passageway you arrive at a\njunction where you may turn either west or east.")
-                    repeat1()
-                    vars.decision_34 = "NO"
+                    vars.checkpoint = 8
                 elif vars.decision_34 == "WEST":
                     story("As you walk along the corridor, you see that it's getting narrower.\nAt one point you stoop, and as you do so, a deep, resonating laugh starts up.")
                     vars.decision_35 = story("Do you wish to continue?")
@@ -93,8 +89,9 @@ def checkpoint7():
                         vars.decision_34 = "NO"
                     if vars.decision_35 == "NO":
                         story("You arrive back at the junction and turn northwards. Several metres up\nyou arrive at a junction where you may turn either west or east.")
+                        vars.decision_34 = "NO"
                 if vars.decision_34 == "NO":
-                    repeat1()
+                    vars.checkpoint = 8
         elif vars.decision_29 == "EAST":
             story("Cautiously you creep along the passageway.\nAfter a short time it turns sharply to the north.")
             story("At the corner there's a bench of solid wood\nand a sign reads 'Rest Ye Here Weary Traveller'.")
@@ -197,7 +194,7 @@ def checkpoint7():
                                 story("They are mouthing silent screams as if trapped in a two-dimensional hell.")
                                 vars.decision_44 = story("On the wall opposite is another door.\nWill you LEAVE through it or STAY to investigate?")
                                 if vars.decision_44 == "LEAVE":
-                                    repeat2()
+                                    vars.checkpoint = 9
                                 elif vars.decision_44 == "STAY":
                                     story("As you watch the living mural, you are unaware of the speed\nyour candle is burning. Suddenly it flickers and goes out!")
                                     story("You again begin to hear the piercing screams\nand their pitch grows to an unbearable level.")
@@ -214,11 +211,11 @@ def checkpoint7():
                                     vars.decision_45 = story("Will you either try the EAST wall or the NORTH wall?")
                                 if vars.decision_45 == "NORTH":
                                     story("You grope around the length of the wall and find a door.\nQuickly you fumble with the handle. It opens!")
-                                    repeat2()
+                                    vars.checkpoint = 9
                 elif vars.decision_37 == "EAST":
                     vars.decision_46 = story("After a few metres you reach another three-way junction.\nWill you go either NORTHwards or EASTwards?")
                     if vars.decision_46 == "NORTH":
-                        repeat3()
+                        vars.checkpoint = 9
                     elif vars.decision_46 == "EAST":
                         vars.decision_47 = story("The passageway ends in a sturdy wooden door. Do you\nwant to try OPENing it or go back and try another ROUTE?")
                         if vars.decision_47 == "OPEN":
@@ -252,5 +249,4 @@ def checkpoint7():
                                 vars.decision_47 = "ROUTE"
                         if vars.decision_47 == "ROUTE":
                             story("You arrive back at the junction and this time you turn northwards.")
-                            repeat3()
-    vars.checkpoint = 8
+                            vars.checkpoint = 10

@@ -1,7 +1,7 @@
 from functions import *
 import variables as vars
 
-def checkpoint4():
+def checkpoint_4():
     if vars.decision_8 == "YES":
         vars.background = "room"
         story("The door opens to reveal a small, unkempt room. In the centre\nis a wooden table upon which a candle burns, lighting the room with its flickering flame.")
