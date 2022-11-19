@@ -1,9 +1,10 @@
 """The main file which contains the storyline and calls all the functions."""
 
+from json import dumps, load
+
 import pygame
 from pygame.locals import *
-from json import load, dumps
-from functions import *
+
 import variables as vars
 from cp0 import checkpoint_0
 from cp1 import checkpoint_1
@@ -18,6 +19,8 @@ from cp9 import checkpoint_9
 from cp10 import checkpoint_10
 from cp11 import checkpoint_11
 from cp12 import checkpoint_12
+from cp13 import checkpoint_13
+from functions import *
 
 if __name__ != "__main__":
     raise Exception
@@ -170,7 +173,8 @@ cp_funcs = {
     9: checkpoint_9,
     10: checkpoint_10,
     11: checkpoint_11,
-    12: checkpoint_12
+    12: checkpoint_12,
+    13: checkpoint_13
 }
 
 while True:
@@ -179,7 +183,6 @@ while True:
     except KeyError as e:
         pass  # Handle error
     else:
-        print(vars.checkpoint)
         cp_func()
 
 pygame.quit()
@@ -190,3 +193,4 @@ pygame.quit()
 #fix dice
 #set background at beginnning of checkpoints
 #end of cp8 has to get back to start
+#make Crocodile fight only 2 rounds
