@@ -197,6 +197,7 @@ def checkpoint_8():
                         story("You are unlucky and step on a hand tile.")
                         vars.decision_58 = "HANDS"
                 else:
+<<<<<<< Updated upstream
                     story("You are unlucky and step on a hand tile.")
                     vars.decision_58 = "HANDS"
             elif vars.decision_58 == "STARS":
@@ -270,3 +271,172 @@ def checkpoint_8():
                         vars.decision_63 = "SWIM"
                     if vars.decision_63 == "SWIM":
                         vars.checkpoint = 11
+=======
+                    story("You do not have 5 Gold Pieces so you prepare to attack him.")
+                    vars.decision_17 = "PREPARE"
+                    if vars.decision_17 == "PREPARE":
+                        story("He now stands just under two metres tall. He advances towards you.\nHis body is hairy. His teeth are pointed. His eyes flash.")
+                        story("His fingernails are sharp claws.\nHis nose has become a rat-like snout. He is a WERERAT!")
+                        vars.monster = [6, 5]
+                        if fight("Wererat"):
+                            story("The Wererat slumps to the ground. You search his body\nand find 2 Gold Pieces, his fare from the last crossing.")
+                            story("You curse him for trying to overcharge you.\nYou take the 2 Gold Pieces and row yourself across the river.")
+                            story("As you moor the boat on the north bank\nyou look back at the body. It has vanished!")
+                            vars.gold += 2
+                            change_stats(2, 2, "add")
+                            #7
+                            pass
+                        if vars.escape:
+                            story("You decide to escape and run over the rickety bridge.")
+                            vars.decision_17 == "BRIDGE"
+                            vars.escape
+                    elif vars.decision_17 == "OFFER":
+                        vars.gold -= 2
+                        vars.decision_17 = "PAY"
+            elif vars.decision_17 == "PAY":
+                vars.gold -= 3
+                story("He calms down, takes the gold and rows you across to the north bank.\nAfter mooring the boat he ambles off down a passageway.")
+                #7
+                pass
+
+        elif vars.decision_17 == "PUNT":
+            story("You climb on the raft and start to punt your way across the river.\nThe going is not easy.")
+            story("In the middle of the river the raft seems to take on\na will of its own and bobs up and down dangerously.")
+            story("You realise it is attempting to capsize itself\nand throw you into the river!")
+            vars.decision_17 = story("You may either test your strength and luck to HOLD on and keep punting to the north side\nor jump into the water and attempt to SWIM to the south bank.")
+            if vars.decision_17 == "HOLD":
+                story("Roll two dice.")
+                dice_num = randint(1, 12)
+                if dice_num <= vars.hero[2] and dice_num <= vars.hero[1]:
+                    story("You manage to hold on and manoeuvre the raft across to the north bank.")
+                    story("You arrive safely but as you step on to the bank,\nthe raft drifts away and makes its own way across the river to the south bank.")
+                    #7
+                    pass
+                else:
+                    story("The raft throws you into the water\nand you start to swim back to the south bank")
+                    vars.decision_17 = "SWIM"
+            elif vars.decision_17 == "SWIM":
+                story("You land in the icy water and frantically swim for the south bank.")
+                story("To your amazement the raft turns round in mid-stream\nand makes its own way back to the south bank")
+                story("You quicken your pace, aware that your splashings may at any time\nattract the attentions of any underwater creatures living in the river. Roll one die.")
+                dice_num = randint(1, 6)
+                if dice_num < 5:
+                    story("You make it safely back to the south bank")
+                    #218 back to start of cp8
+                    pass
+                elif dice_num > 4:
+                    vars.decsion_17 = "PIRANHAS"
+        elif vars.decision_17 == "BRIDGE":
+            story("The timbers of the bridge are rotting and decayed from years of neglect.\nA single plank snaps under your foot. Roll one die")
+            dice_num = randint(1, 6)
+            if dice_num == 6:
+                vars.decision_17 == "PIRANHAS"
+            else:
+                story("You regain your footing. In the middle of the river,\nthe bridge swings to and fro as it strains to take your weight.")
+                story("The handrail comes away suddenly as you lean on it.\nRoll one die.")
+                dice_num = randint(1, 6)
+                if dice_num == 6:
+                    vars.decision_17 = "PIRANHAS"
+                    if vars.decision_17 == "PIRANHAS":
+                        story("You plunge into the river below. The water around you bristles with activity,\nas if an invisible hand is dropping unseen pebbles into the river.")
+                        story("You gulp - PIRANHAS! - and you begin to feel their sharp teeth biting into your flesh")
+                        story("You kick with your limbs and slash with your weapons\nto keep them off until you reach the south bank.")
+                        vars.monster = [6, 5]
+                        if fight("Piranhas"):
+                            vars.decision_17 = story("You manage to scramble out of the water andlie panting\non the south bank. You may eat provisions here. Will you?")
+                            if vars.decision_17 == "YES":
+                                take_provs()
+                                vars.decision_17 = "NO"
+                            if vars.decision_17 == "NO":
+                                #218 back to start of cp8
+                                pass
+                elif dice_num < 6:
+                    story("You regain your balance.")
+                    story("The bridge is slippery from the splashings\nof the water. At one point you slip on a tuft of wet moss covering the timbers. Roll one die")
+                    dice_num = randint(1, 6)
+                    if dice_num == 6:
+                        story("You slip from the bridge into the water below and start swimming for the nearest bank.")
+                        vars.decision_17 = "RISK"
+                    elif dice_num < 6:
+                        story("You manage to hold on and you reach the north bank.")
+                        #7
+                        pass
+            
+        elif vars.decision_17 == "SWIM":
+            story("The water is icy cold. You start to swim and notice\nthat your splashings are attracting a moving 'turbulence' in the water.")
+            story("Will your strength and stamina hold out?\nRoll two dice.")
+            dice_num = randint(1, 12)
+            if dice_num <= vars.hero[1]:
+                story("You believe you can make it and swim furiously for the north bank.")
+                story("You gain ground on the 'turbulence' in the water but a few metres from the north bank\nyou notice two sinister reptilian eyes on the surface of the water watching you.")
+                story("You are swimming straight for them. If you decide you'd rather not\nface the owner of the eyes, you may turn around.")
+                story("Alternatively, you may risk the eyes ahead. You may try a detour which will send you nearer the 'turbulence'")
+                vars.decision_17 = story("Will you\nTURN around\nRISK the eyes\nor try a DETOUR")
+                if vars.decision_17 == "TURN":
+                    story("You arrive exhausted and lose 1 stamina point.")
+                    change_stats(1, 1, "subtract")
+                    #218 back to start of cp8
+                    pass
+                elif vars.decision_17 == "RISK":
+                    story("A huge jaw opens in front of you. By the size of it,\nthe CROCODILE you are swimming towards must be at least three metres long.")
+                    story("The beast slaps its tail in the water and glides towards you. You must fight two attack rounds.")
+                    vars.monster = [7, 6]
+                    #Only fight two attack rounds.
+                    story("Your combined thrashings attract a 'turbulence' in the water\nthat you had noticed before and this now makes its way towards your part of the river.")
+                    story("Out of the corner of your eye\nyou notice this and must decide what to do.")
+                    story("If you belive that the CROCODILE is on its last legs\nand you wish to continue the battle, then do so.")
+                    story("Otherwise you can keep the beast occupied in the faint hope\nthat this mysterious visitor will help you in some way.")
+                    vars.decision_17 = story("Will you CONTINUE the battle or KEEP the beast occupied?")
+                    if vars.decision_17 == "CONTINUE":
+                        #continue the battle
+                        if fight("Crocodile"):
+                            #259
+                            pass
+                    elif vars.decision_17 == "KEEP":
+                        #have 1 more attack round
+                        story("As the 'turbulence' surrounds you,\nyou can feel the jostlings of many small fish.")
+                        story("They start ripping your flesh with vicious bites and you realize that you are surrounded by deadly PIRANHAS!")
+                        if :#you have wounded the crocodile
+                            story("You are lucky and most of the fish\nattack the bleeding reptile.")
+                            vars.decision_17 = "FIGHT"
+                        elif :#you haven't wounded the crocodile
+                            story("You have not wounded the crocodile, so the fish may go for either you or it. Roll one die.")
+                            dice_num = randint(1, 6)
+                            if dice_num < 3:
+                                story("The majority of the Piranhas go for you.")
+                                vars.monster = [5, 5]
+                                if fight("Piranhas"):
+                                    vars.decision_17 = "WIN"
+                            elif dice_num > 2 or vars.decision_17 == "FIGHT":
+                                vars.monster = [5, 1]
+                                if fight("Piranhas") or vars.decision_17 == "WIN":
+                                    vars.decision_17 = story("You swim to shore. Do you want to eat provisions?")
+                                    change_stats(2, 1, "add")
+                                    if vars.decision_17 == "YES":
+                                        take_provs()
+                                        vars.decision_17 = "NO"
+                                    if vars.decision_17 == "NO":
+                                        #7   
+                                        pass                                 
+                elif vars.decision_17 == "DETOUR" or vars.decision_17 == "PIRANHAS":
+                        story("You plunge into the river below. The water around you bristles with activity,\nas if an invisible hand is dropping unseen pebbles into the river.")
+                        story("You gulp - PIRANHAS! - and you begin to feel their sharp teeth biting into your flesh")
+                        story("You kick with your limbs and slash with your weapons\nto keep them off until you reach the south bank.")
+                        vars.monster = [6, 5]
+                        if fight("Piranhas"):
+                            vars.decision_17 = story("You manage to scramble out of the water andlie panting\non the south bank. You may eat provisions here. Will you?")
+                            if vars.decision_17 == "YES":
+                                take_provs()
+                                vars.decision_17 = "NO"
+                            if vars.decision_17 == "NO":
+                                #218 back to start of cp8
+                                pass
+            else:
+                vars.decision_17 = story("You decide not to risk it and return to the south bank.\nYou may eat provisions on the south bank. Will you?")
+                if vars.decision_17 == "YES":
+                    take_provs()
+                    vars.decision_17 == "NO"
+                if vars.decision_17 == "NO":
+                    #218 back to start of cp8
+                    pass
+>>>>>>> Stashed changes
